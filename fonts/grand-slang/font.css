@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "Grand Slang";
+  src: url("./regular.woff2") format("woff2"),
+    url("./regular.woff") format("woff"), url("./regular.ttf") format("ttf");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Grand Slang";
+  src: url("./regular-italic.woff2") format("woff2"),
+    url("./regular-italic.woff") format("woff"),
+    url("./regular-italic.ttf") format("ttf");
+  font-style: italic;
+  font-weight: 400;
+}
