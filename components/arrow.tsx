@@ -3,21 +3,28 @@ import styled from "styled-components";
 export type ArrowDirection = "down" | "right";
 
 export interface ArrowProps {
-  size: number;
   direction: ArrowDirection;
   children: string;
   onClick: () => void;
 }
 
-const Button = styled.button<{ direction: ArrowDirection }>`
+const Button = styled.button`
+  display: block;
+`;
+
+const SVG = styled.svg<{ direction: ArrowDirection }>`
   transform: ${({ direction }) =>
     ({ down: "rotate(0)", right: "rotate(90deg)" }[direction])};
+  width: 36px;
+  @media (min-width: 768px) {
+    width: 70px;
+  }
 `;
 
 export const Arrow = (props: ArrowProps) => (
-  <Button direction={props.direction} onClick={props.onClick}>
-    <svg
-      width={props.size}
+  <Button onClick={props.onClick}>
+    <SVG
+      direction={props.direction}
       viewBox="0 0 69 65"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -28,6 +35,6 @@ export const Arrow = (props: ArrowProps) => (
         stroke="currentColor"
         strokeWidth="2"
       />
-    </svg>
+    </SVG>
   </Button>
 );
