@@ -1,0 +1,45 @@
+@import url("../fonts/grand-slang/font.css");
+@import url("../fonts/neue-haas-grotesk-display/font.css");
+
+*,
+*::after,
+*::before {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-decoration: inherit;
+  border: none;
+  list-style: none;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font: 16px "Neue Haas Grotesk Display", sans-serif;
+  min-height: 100vh;
+
+  --black: #000205;
+  --highlight: #daff01;
+  --white: #ffffff;
+
+  color: var(--black);
+  background: var(--white);
+
+  --header-font: 36px "Grand Slang";
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 20px;
+
+    --header-font: 70px "Grand Slang";
+  }
+}
+
+@media (min-width: 1100px) {
+  body {
+    --header-font: 108px "Grand Slang";
+  }
+}
