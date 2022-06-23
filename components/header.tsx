@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { Nav } from "./nav";
 
 const HeaderElement = styled.header`
   display: flex;
@@ -15,14 +17,18 @@ const HamburgerButton = styled.button`
   }
 `;
 
-export const Header = () => (
-  <HeaderElement>
-    <div>Cindy Adames</div>
-    <HamburgerButton>
-      <HamburgerIcon />
-    </HamburgerButton>
-  </HeaderElement>
-);
+export const Header = () => {
+  const [showNav, setShowNav] = useState(false);
+  return (
+    <HeaderElement>
+      <div>Cindy Adames</div>
+      <HamburgerButton onClick={() => setShowNav(true)}>
+        <HamburgerIcon />
+      </HamburgerButton>
+      <Nav show={showNav} onClose={() => setShowNav(false)} />
+    </HeaderElement>
+  );
+};
 
 const HamburgerIcon = () => (
   <svg viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
