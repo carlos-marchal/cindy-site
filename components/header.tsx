@@ -32,6 +32,7 @@ export const Header = () => {
 
 const HamburgerIcon = () => (
   <svg viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>Open Navigation</title>
     <rect width="25" height="3" rx="0.5" fill="currentColor" />
     <rect y="9.5" width="25" height="3" rx="0.5" fill="currentColor" />
     <rect y="19" width="25" height="3" rx="0.5" fill="currentColor" />
