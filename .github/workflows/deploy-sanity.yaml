@@ -18,6 +18,6 @@ jobs:
           cache: "yarn"
           cache-dependency-path: sanity-studio/yarn.lock
       - name: Installing Dependencies
-        run: npx sanity install
+        run: npx -p @sanity/cli sanity install
       - name: Publishing Studio
-        run: npx sanity deploy
+        run: npx -p @sanity/cli sanity deploy
