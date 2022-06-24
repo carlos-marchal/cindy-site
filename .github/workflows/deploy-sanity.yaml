@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: "14"
           cache: "yarn"
+          cache-dependency-path: sanity-studio/yarn.lock
       - name: Installing Dependencies
         run: npx sanity install
       - name: Publishing Studio
