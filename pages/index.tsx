@@ -1,9 +1,21 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
+import { groq } from "next-sanity";
 import Head from "next/head";
 import styled from "styled-components";
 import { Arrow } from "../components/arrow";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
+import { SanityProps } from "../sanity-client/config";
+import { getSanityStaticProps } from "../sanity-client/sanity.server";
+
+interface IndexData {
+  title: string;
+  main_text: string;
+}
+
+export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
+  return getSanityStaticProps(groq`*[_id == "home"]`, preview);
+};
 
 const Root = styled.div`
   min-height: 100vh;
@@ -26,17 +38,18 @@ const Main = styled.main`
   }
 `;
 
-const IndexPage: NextPage = () => {
+const IndexPage: NextPage<SanityProps<IndexData>> = (props) => {
+  const { data } = props;
   return (
     <Root>
       <Head>
-        <title>Home</title>
+        <title>{data.title}</title>
         <meta name="description" content="Home description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
       <Main>
-        Flexib le Visual Communicator &amp; Brand Designer
+        {data.main_text}
         <Arrow direction="down" onClick={() => {}}>
           Go to works
         </Arrow>
