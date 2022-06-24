@@ -6,6 +6,7 @@ import { Arrow } from "../components/arrow";
 import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { SanityProps } from "../sanity-client/config";
+import { useSanityData } from "../sanity-client/sanity";
 import { getSanityStaticProps } from "../sanity-client/sanity.server";
 
 interface IndexData {
@@ -39,7 +40,7 @@ const Main = styled.main`
 `;
 
 const IndexPage: NextPage<SanityProps<IndexData>> = (props) => {
-  const { data } = props;
+  const data = useSanityData(props);
   return (
     <Root>
       <Head>
