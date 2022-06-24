@@ -21,3 +21,5 @@ jobs:
         run: npx -p @sanity/cli sanity install
       - name: Publishing Studio
         run: npx -p @sanity/cli sanity deploy
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
