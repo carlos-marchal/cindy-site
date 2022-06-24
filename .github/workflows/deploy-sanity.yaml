@@ -2,13 +2,13 @@ name: Deploy Sanity Studio
 on:
   push:
     paths:
-      - "sanity/**"
+      - "sanity-studio/**"
 jobs:
   Deploy-Sanity-Studio:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sanity
+        working-directory: sanity-studio
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
