@@ -1,8 +1,9 @@
 name: Deploy Sanity Studio
 on:
   push:
-    paths:
-      - "sanity-studio/**"
+      paths:
+        - "sanity-studio/**"
+  workflow_dispatch:
 jobs:
   Deploy-Sanity-Studio:
     runs-on: ubuntu-latest
