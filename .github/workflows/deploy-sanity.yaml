@@ -1,0 +1,24 @@
+name: Deploy Sanity Studio
+on:
+  push:
+    paths:
+      - "sanity/**"
+jobs:
+  Deploy-Sanity-Studio:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sanity
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+          cache: "pnpm"
+      - name: Installing Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Publishing Studio
+        run: pnpm deploy
