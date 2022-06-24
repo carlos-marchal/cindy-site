@@ -11,3 +11,25 @@ export const sanityConfig: ClientConfig & ProjectConfig = {
   useCdn: process.env.NODE_ENV === "production",
   token: process.env.SANITY_API_TOKEN,
 };
+
+export interface SanityProps<T> {
+  data: T;
+  preview: boolean;
+  query: string;
+}
+
+export function getSanityData<T>(data: unknown, preview: boolean): T {
+  if (!Array.isArray(data)) {
+    return data as T;
+  }
+
+  if (data.length === 1) {
+    return data[0];
+  }
+
+  if (preview) {
+    return data.find((item) => item._id.startsWith(`drafts.`)) || data[0];
+  }
+
+  return data[0];
+}
