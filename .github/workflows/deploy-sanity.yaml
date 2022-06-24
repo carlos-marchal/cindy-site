@@ -1,8 +1,8 @@
 name: Deploy Sanity Studio
 on:
   push:
-      paths:
-        - "sanity-studio/**"
+    paths:
+      - "sanity-studio/**"
   workflow_dispatch:
 jobs:
   Deploy-Sanity-Studio:
@@ -23,3 +23,5 @@ jobs:
         run: npx -p @sanity/cli sanity deploy
         env:
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+          SANITY_STUDIO_PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
+          SANITY_STUDIO_PRODUCTION_URL: ${{ secrets.SANITY_STUDIO_PRODUCTION_URL }}

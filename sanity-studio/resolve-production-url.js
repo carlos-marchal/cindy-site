@@ -1,6 +1,6 @@
-const secret = process.env.PREVIEW_SECRET;
-const remoteUrl = process.env.PRODUCTION_URL;
-const localUrl = process.env.DEVELOPMENT_URL ?? "http://localhost:3000";
+const secret = process.env.SANITY_STUDIO_PREVIEW_SECRET;
+const remoteUrl = process.env.SANITY_STUDIO_PRODUCTION_URL;
+const localUrl = process.env.SANITY_STUDIO_DEVELOPMENT_URL ?? "http://localhost:3000";
 
 export default function resolveProductionUrl(document) {
   const baseUrl =
