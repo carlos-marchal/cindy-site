@@ -1,10 +1,14 @@
 export default {
-  name: "nav",
-  title: "Navigation",
+  name: "site_settings",
   type: "document",
   fields: [
     {
-      name: "entries",
+      name: "title_prefix",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "navigation",
       type: "array",
       of: [
         {
@@ -17,7 +21,7 @@ export default {
             },
             {
               type: "string",
-              name: "destination",
+              name: "path",
               validation: (Rule) => Rule.required(),
             },
           ],
