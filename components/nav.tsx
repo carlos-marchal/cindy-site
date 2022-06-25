@@ -62,7 +62,7 @@ export const Nav = (props: NavProps) => {
         {props.items.map((item, index) => (
           <li key={index}>
             <Link href={item.path}>
-              <a>{item.name}</a>
+              <a onClick={() => props.onClose()}>{item.name}</a>
             </Link>
           </li>
         ))}
