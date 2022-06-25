@@ -5,7 +5,7 @@ export default () =>
     .title("Content")
     .items([
       S.listItem()
-        .title("Home")
+        .title("Home Page")
         .child(S.document().schemaType("home").documentId("home")),
       ...S.documentTypeListItems().filter(
         (listItem) => !["site_settings", "home"].includes(listItem.getId())
