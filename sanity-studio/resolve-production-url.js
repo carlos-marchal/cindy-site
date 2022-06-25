@@ -20,6 +20,8 @@ function getPath(document) {
   switch (document._type) {
     case "home":
       return "";
+    case "works":
+      return "works";
   }
   return "";
 }
