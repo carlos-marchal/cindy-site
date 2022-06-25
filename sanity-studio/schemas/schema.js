@@ -3,10 +3,17 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 
 import siteSetting from "./site-settings";
 import homePage from "./home";
-import category from "./category";
 import worksPage from "./works";
+import category from "./category";
+import showcase from "./showcase";
 
 export default createSchema({
   name: "default",
-  types: schemaTypes.concat([siteSetting, homePage, worksPage, category]),
+  types: schemaTypes.concat([
+    siteSetting,
+    homePage,
+    worksPage,
+    category,
+    showcase,
+  ]),
 });
