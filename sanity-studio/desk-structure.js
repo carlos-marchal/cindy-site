@@ -7,8 +7,12 @@ export default () =>
       S.listItem()
         .title("Home Page")
         .child(S.document().schemaType("home").documentId("home")),
+      S.listItem()
+        .title("Works Page")
+        .child(S.document().schemaType("works").documentId("works")),
       ...S.documentTypeListItems().filter(
-        (listItem) => !["site_settings", "home"].includes(listItem.getId())
+        (listItem) =>
+          !["site_settings", "home", "works"].includes(listItem.getId())
       ),
       S.listItem()
         .title("Site Settings")
