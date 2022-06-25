@@ -41,7 +41,7 @@ export interface SiteSettings {
   navigation: SiteSettingsNavigation[];
 }
 
-interface SiteSettingsNavigation {
+export interface SiteSettingsNavigation {
   name: string;
   path: string;
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
+import { SiteSettingsNavigation } from "../sanity-client/config";
 
 const NavElement = styled.nav`
   position: fixed;
@@ -45,6 +46,7 @@ const UL = styled.ul`
 export interface NavProps {
   show?: boolean;
   onClose: () => void;
+  items: SiteSettingsNavigation[];
 }
 
 export const Nav = (props: NavProps) => {
@@ -57,16 +59,13 @@ export const Nav = (props: NavProps) => {
         <CloseIcon />
       </CloseButton>
       <UL>
-        <li>
-          <Link href="#">
-            <a>Works</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="#">
-            <a>About</a>
-          </Link>
-        </li>
+        {props.items.map((item, index) => (
+          <li key={index}>
+            <Link href={item.path}>
+              <a>{item.name}</a>
+            </Link>
+          </li>
+        ))}
       </UL>
     </NavElement>
   );

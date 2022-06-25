@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { SiteSettingsNavigation } from "../sanity-client/config";
 import { Nav } from "./nav";
 
 const HeaderElement = styled.header`
@@ -17,7 +18,11 @@ const HamburgerButton = styled.button`
   }
 `;
 
-export const Header = () => {
+export interface HeaderProps {
+  navItems: SiteSettingsNavigation[];
+}
+
+export const Header = (props: HeaderProps) => {
   const [showNav, setShowNav] = useState(false);
   return (
     <HeaderElement>
@@ -25,7 +30,11 @@ export const Header = () => {
       <HamburgerButton onClick={() => setShowNav(true)}>
         <HamburgerIcon />
       </HamburgerButton>
-      <Nav show={showNav} onClose={() => setShowNav(false)} />
+      <Nav
+        show={showNav}
+        onClose={() => setShowNav(false)}
+        items={props.navItems}
+      />
     </HeaderElement>
   );
 };

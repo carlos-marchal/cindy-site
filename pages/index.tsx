@@ -42,15 +42,18 @@ const Main = styled.main`
 type IndexProps = SanityProps<[IndexData]>;
 
 const IndexPage: NextPage<IndexProps> = (props) => {
-  const [data] = useSanityData(props);
+  const [settings, data] = useSanityData(props);
   return (
     <Root>
       <Head>
-        <title>{data.title}</title>
+        <title>
+          {settings.title_prefix}
+          {data.title}
+        </title>
         <meta name="description" content="Home description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header navItems={settings.navigation} />
       <Main>
         {data.main_text}
         <Arrow direction="down" onClick={() => {}}>
