@@ -15,7 +15,7 @@ interface IndexData {
 }
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  return getSanityStaticProps(groq`*[_id == "home"]`, preview);
+  return getSanityStaticProps([groq`*[_id == "home"]`], preview);
 };
 
 const Root = styled.div`
@@ -39,8 +39,10 @@ const Main = styled.main`
   }
 `;
 
-const IndexPage: NextPage<SanityProps<IndexData>> = (props) => {
-  const data = useSanityData(props);
+type IndexProps = SanityProps<[IndexData]>;
+
+const IndexPage: NextPage<IndexProps> = (props) => {
+  const [data] = useSanityData(props);
   return (
     <Root>
       <Head>

@@ -12,10 +12,10 @@ export const sanityConfig: ClientConfig & ProjectConfig = {
   token: process.env.SANITY_API_TOKEN,
 };
 
-export interface SanityProps<T> {
+export interface SanityProps<T extends unknown[]> {
+  queries: string[];
   data: T;
   preview: boolean;
-  query: string;
 }
 
 export function getSanityData<T>(data: unknown, preview: boolean): T {
