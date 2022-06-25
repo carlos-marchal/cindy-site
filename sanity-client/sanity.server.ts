@@ -1,6 +1,12 @@
 import { GetStaticPropsResult } from "next";
 import { createClient } from "next-sanity";
-import { getSanityData, sanityConfig, SanityProps } from "./config";
+import {
+  getSanityData,
+  sanityConfig,
+  SanityProps,
+  sanitySettingsQuery,
+  SiteSettings,
+} from "./config";
 
 const sanityClient = createClient(sanityConfig);
 
@@ -15,13 +21,15 @@ const getClient = (usePreview: boolean) =>
 export async function getSanityStaticProps<T extends unknown[]>(
   queries: string[],
   preview: boolean
-): Promise<GetStaticPropsResult<SanityProps<T>>> {
+): Promise<GetStaticPropsResult<SanityProps<[SiteSettings, ...T]>>> {
   const responses = await Promise.all(
-    queries.map((query) => getClient(preview).fetch(query))
+    [sanitySettingsQuery, ...queries].map((query) =>
+      getClient(preview).fetch(query)
+    )
   );
   if (responses.every((response) => response === undefined)) {
     return { notFound: true };
   }
   const data = responses.map((response) => getSanityData(response, preview));
-  return { props: { queries, data: data as T, preview } };
+  return { props: { queries, data: data as [SiteSettings, ...T], preview } };
 }

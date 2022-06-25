@@ -1,4 +1,4 @@
-import { ClientConfig, ProjectConfig } from "next-sanity";
+import { ClientConfig, groq, ProjectConfig } from "next-sanity";
 
 if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID === undefined) {
   throw new Error("Env variable NEXT_PUBLIC_SANITY_PROJECT_ID needs to be set");
@@ -32,4 +32,16 @@ export function getSanityData<T>(data: unknown, preview: boolean): T {
   }
 
   return data[0];
+}
+
+export const sanitySettingsQuery = groq`*[_id == "site_settings"]`;
+
+export interface SiteSettings {
+  title_prefix: string;
+  navigation: SiteSettingsNavigation[];
+}
+
+interface SiteSettingsNavigation {
+  name: string;
+  path: string;
 }
