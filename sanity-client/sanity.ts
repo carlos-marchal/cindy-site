@@ -3,15 +3,45 @@ import createImageUrlBuilder from "@sanity/image-url";
 import {
   getSanityData,
   sanityConfig,
+  SanityImageReference,
   SanityProps,
   sanitySettingsQuery,
   SiteSettings,
 } from "./config";
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { useRef } from "react";
+import { ImageProps } from "next/image";
 
-export const urlFor = (source: SanityImageSource) =>
-  createImageUrlBuilder(sanityConfig).image(source);
+export const urlBuilder = createImageUrlBuilder(sanityConfig);
+
+export function sanityImageProps(
+  source: SanityImageReference,
+  layout: ImageProps["layout"]
+): ImageProps {
+  const props: ImageProps = {
+    src: source.asset._ref,
+    layout,
+    loader: (props) => {
+      const build = urlBuilder.image(source).width(props.width).auto("format");
+      if (props.quality !== undefined) {
+        build.quality(props.quality);
+      }
+      return build.url();
+    },
+    placeholder: "blur",
+  };
+  if (layout !== "fill") {
+    const [width, height] = source.asset._ref
+      .match(/\d+x\d+/)![0]
+      .split("x")
+      .map((x) => Number.parseInt(x, 10));
+    props.width = width;
+    props.height = height;
+  }
+  if (source.blurDataURL !== undefined) {
+    props.blurDataURL = source.blurDataURL;
+  }
+  return props;
+}
 
 const usePreviewSubscription = createPreviewSubscriptionHook(sanityConfig);
 
