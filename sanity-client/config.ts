@@ -1,8 +1,12 @@
 import { ClientConfig, groq, ProjectConfig } from "next-sanity";
+import createImageUrlBuilder from "@sanity/image-url";
 
 if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID === undefined) {
   throw new Error("Env variable NEXT_PUBLIC_SANITY_PROJECT_ID needs to be set");
 }
+
+export const urlFor = (source: SanityImageReference) =>
+  createImageUrlBuilder(sanityConfig).image(source);
 
 export const sanityConfig: ClientConfig & ProjectConfig = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
@@ -44,4 +48,22 @@ export interface SiteSettings {
 export interface SiteSettingsNavigation {
   name: string;
   path: string;
+}
+
+export interface SanityImageReference {
+  _type: "image";
+  asset: {
+    _ref: string;
+    _type: "reference";
+  };
+  blurDataURL?: string;
+}
+
+export function isSanityImageReference(
+  data: any
+): data is SanityImageReference {
+  if (data._type !== "image") {
+    return false;
+  }
+  return data.asset?._type === "reference";
 }
