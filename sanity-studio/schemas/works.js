@@ -21,5 +21,18 @@ export default {
       ],
       validation: (Rule) => Rule.unique(),
     },
+    {
+      type: "array",
+      name: "showcases",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "showcase" }],
+          options: { disableNew: true },
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+      validation: (Rule) => Rule.unique(),
+    },
   ],
 };
