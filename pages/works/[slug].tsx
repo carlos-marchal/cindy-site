@@ -19,6 +19,10 @@ import {
   HighlightSection,
   HighlightSectionData,
 } from "../../components/works/highlight-section";
+import {
+  ImageSection,
+  ImageSectionData,
+} from "../../components/works/image-section";
 
 interface WorksData {
   title: string;
@@ -26,7 +30,11 @@ interface WorksData {
   category: string;
 }
 
-type SectionData = IntroSectionData | TextSectionData | HighlightSectionData;
+type SectionData =
+  | IntroSectionData
+  | TextSectionData
+  | HighlightSectionData
+  | ImageSectionData;
 
 type ShowcaseProps = SanityProps<[WorksData]>;
 
@@ -71,6 +79,8 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
             return <TextSection>{section}</TextSection>;
           case "highlight":
             return <HighlightSection>{section}</HighlightSection>;
+          case "picture":
+            return <ImageSection>{section}</ImageSection>;
         }
       })}
     </>
