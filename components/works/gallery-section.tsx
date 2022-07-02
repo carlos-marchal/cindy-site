@@ -24,10 +24,6 @@ const GallerySectionElement = styled.section`
   }
 `;
 
-const GallerySectionImage = styled.div`
-  position: relative;
-`;
-
 export interface GallerySectionProps {
   children: GallerySectionData;
 }
@@ -38,9 +34,11 @@ export const GallerySection = (props: GallerySectionProps) => {
       {props.children.content.map((element, index) => {
         const imageProps = sanityImageProps(element, "responsive");
         return (
-          <GallerySectionImage key={index}>
-            <Image {...imageProps} />
-          </GallerySectionImage>
+          <Image
+            key={index}
+            {...imageProps}
+            sizes="(min-width: 1500px) 25vw, (min-width: 1000) 33vw, (min-width: 768px) 50vw, 100vw"
+          />
         );
       })}
     </GallerySectionElement>
