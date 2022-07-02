@@ -27,6 +27,10 @@ import {
   GallerySection,
   GallerySectionData,
 } from "../../components/works/gallery-section";
+import {
+  CarousselSection,
+  CarousselSectionData,
+} from "../../components/works/caroussel-section";
 
 interface WorksData {
   title: string;
@@ -39,7 +43,8 @@ type SectionData =
   | TextSectionData
   | HighlightSectionData
   | ImageSectionData
-  | GallerySectionData;
+  | GallerySectionData
+  | CarousselSectionData;
 
 type ShowcaseProps = SanityProps<[WorksData]>;
 
@@ -89,6 +94,8 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
             return <ImageSection key={index}>{section}</ImageSection>;
           case "gallery":
             return <GallerySection key={index}>{section}</GallerySection>;
+          case "caroussel":
+            return <CarousselSection key={index}>{section}</CarousselSection>;
         }
       })}
     </>
