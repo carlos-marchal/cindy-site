@@ -179,12 +179,6 @@ export default {
           name: "gallery",
           fields: [
             {
-              type: "boolean",
-              name: "show_caroussel",
-              initialValue: false,
-              validation: (Rule) => Rule.required(),
-            },
-            {
               type: "array",
               name: "content",
               options: { layout: "grid" },

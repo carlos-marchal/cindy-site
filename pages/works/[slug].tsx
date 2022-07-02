@@ -23,6 +23,10 @@ import {
   ImageSection,
   ImageSectionData,
 } from "../../components/works/image-section";
+import {
+  GallerySection,
+  GallerySectionData,
+} from "../../components/works/gallery-section";
 
 interface WorksData {
   title: string;
@@ -34,7 +38,8 @@ type SectionData =
   | IntroSectionData
   | TextSectionData
   | HighlightSectionData
-  | ImageSectionData;
+  | ImageSectionData
+  | GallerySectionData;
 
 type ShowcaseProps = SanityProps<[WorksData]>;
 
@@ -68,18 +73,22 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
         <meta name="description" content="Works description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {data.sections.map((section) => {
+      {data.sections.map((section, index) => {
         switch (section._type) {
           case "intro":
             return (
-              <IntroSection category={data.category}>{section}</IntroSection>
+              <IntroSection key={index} category={data.category}>
+                {section}
+              </IntroSection>
             );
           case "text_section":
-            return <TextSection>{section}</TextSection>;
+            return <TextSection key={index}>{section}</TextSection>;
           case "highlight":
-            return <HighlightSection>{section}</HighlightSection>;
+            return <HighlightSection key={index}>{section}</HighlightSection>;
           case "picture":
-            return <ImageSection>{section}</ImageSection>;
+            return <ImageSection key={index}>{section}</ImageSection>;
+          case "gallery":
+            return <GallerySection key={index}>{section}</GallerySection>;
         }
       })}
     </>
