@@ -69,7 +69,6 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {data.sections.map((section) => {
-        console.log(section);
         switch (section._type) {
           case "intro":
             return (

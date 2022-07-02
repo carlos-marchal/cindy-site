@@ -32,7 +32,6 @@ export interface ImageSectionProps {
 
 export const ImageSection = (props: ImageSectionProps) => {
   const imageProps = sanityImageProps(props.children.image, "responsive");
-  console.log(props.children.mode);
   return (
     <ImageSectionElement mode={props.children.mode}>
       <Image
