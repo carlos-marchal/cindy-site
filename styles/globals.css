@@ -23,6 +23,7 @@ button {
 body {
   font: 16px "Neue Haas Grotesk Display", sans-serif;
   min-height: 100vh;
+  line-height: 28px;
 
   --black: #000205;
   --highlight: #daff01;
@@ -48,4 +49,8 @@ body {
   body {
     --header-font: 108px "Grand Slang";
   }
+}
+
+h1 {
+  font: var(--header-font);
 }
