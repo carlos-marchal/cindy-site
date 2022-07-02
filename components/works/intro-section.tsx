@@ -54,7 +54,12 @@ export const IntroSection = (props: IntroSectionProps) => {
   return (
     <IntroSectionElement>
       <IntroSectionImage>
-        <Image {...imageProps} objectFit="cover"></Image>
+        <Image
+          {...imageProps}
+          objectFit="cover"
+          sizes="(min-width: 768px) 50vw, 100vw"
+          priority
+        ></Image>
       </IntroSectionImage>
       <IntroSectionText>
         <h1>{props.children.title}</h1>

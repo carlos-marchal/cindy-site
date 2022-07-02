@@ -40,7 +40,7 @@ export const HighlightSection = (props: HighlightSectionProps) => {
   return (
     <HighlightSectionElement>
       <HighlightSectionImage>
-        <Image {...imageProps} />
+        <Image {...imageProps} sizes="(min-width: 768px) 66vw, 100vw" />
       </HighlightSectionImage>
       <HighlightSectionContent>
         <TextRenderer>{props.children.content}</TextRenderer>

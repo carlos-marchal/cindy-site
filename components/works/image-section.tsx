@@ -34,8 +34,13 @@ export const ImageSection = (props: ImageSectionProps) => {
   const imageProps = sanityImageProps(props.children.image, "responsive");
   console.log(props.children.mode);
   return (
-    <ImageSectionElement mode="full">
-      <Image {...imageProps} />
+    <ImageSectionElement mode={props.children.mode}>
+      <Image
+        {...imageProps}
+        sizes={`(min-width: 768px) ${
+          { full: 100, left: 70, right: 70, poster: 40 }[props.children.mode]
+        }vw, 100vw`}
+      />
     </ImageSectionElement>
   );
 };
