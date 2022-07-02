@@ -28,6 +28,7 @@ export function sanityImageProps(
       return build.url();
     },
     placeholder: "blur",
+    alt: source.caption ?? "",
   };
   if (layout !== "fill") {
     const [width, height] = source.asset._ref

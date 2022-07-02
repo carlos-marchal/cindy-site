@@ -56,6 +56,7 @@ export interface SanityImageReference {
     _ref: string;
     _type: "reference";
   };
+  caption?: string;
   blurDataURL?: string;
 }
 
