@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    // Alt content is provided through the sanityImageProps function 
+    "jsx-a11y/alt-text": "off"
+  }
 }
