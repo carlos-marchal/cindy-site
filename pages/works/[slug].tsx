@@ -11,6 +11,10 @@ import {
   IntroSection,
   IntroSectionData,
 } from "../../components/works/intro-section";
+import {
+  TextSection,
+  TextSectionData,
+} from "../../components/works/text-section";
 
 interface WorksData {
   title: string;
@@ -18,7 +22,7 @@ interface WorksData {
   category: string;
 }
 
-type SectionData = IntroSectionData;
+type SectionData = IntroSectionData | TextSectionData;
 
 type ShowcaseProps = SanityProps<[WorksData]>;
 
@@ -59,6 +63,8 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
             return (
               <IntroSection category={data.category}>{section}</IntroSection>
             );
+          case "text_section":
+            return <TextSection>{section}</TextSection>;
         }
       })}
     </>
