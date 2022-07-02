@@ -7,12 +7,18 @@ import {
   getSanityStaticPaths,
   getSanityStaticProps,
 } from "../../sanity-client/sanity.server";
+import {
+  IntroSection,
+  IntroSectionData,
+} from "../../components/works/intro-section";
 
 interface WorksData {
   title: string;
-  sections: unknown[];
+  sections: SectionData[];
   category: string;
 }
+
+type SectionData = IntroSectionData;
 
 type ShowcaseProps = SanityProps<[WorksData]>;
 
@@ -46,6 +52,15 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
         <meta name="description" content="Works description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {data.sections.map((section) => {
+        console.log(section);
+        switch (section._type) {
+          case "intro":
+            return (
+              <IntroSection category={data.category}>{section}</IntroSection>
+            );
+        }
+      })}
     </>
   );
 };
