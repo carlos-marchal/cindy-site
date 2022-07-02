@@ -15,6 +15,10 @@ import {
   TextSection,
   TextSectionData,
 } from "../../components/works/text-section";
+import {
+  HighlightSection,
+  HighlightSectionData,
+} from "../../components/works/highlight-section";
 
 interface WorksData {
   title: string;
@@ -22,7 +26,7 @@ interface WorksData {
   category: string;
 }
 
-type SectionData = IntroSectionData | TextSectionData;
+type SectionData = IntroSectionData | TextSectionData | HighlightSectionData;
 
 type ShowcaseProps = SanityProps<[WorksData]>;
 
@@ -65,6 +69,8 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
             );
           case "text_section":
             return <TextSection>{section}</TextSection>;
+          case "highlight":
+            return <HighlightSection>{section}</HighlightSection>;
         }
       })}
     </>
