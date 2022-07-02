@@ -1,3 +1,23 @@
+import React from "react";
+
+const textConfig = [
+  {
+    type: "block",
+    styles: [
+      { title: "Normal", value: "normal" },
+      {
+        title: "Header",
+        value: "header",
+        blockEditor: {
+          render: (props) => (
+            <span style={{ fontSize: "1.5em" }}>{props.children}</span>
+          ),
+        },
+      },
+    ],
+  },
+];
+
 export default {
   name: "showcase",
   title: "Showcase",
@@ -24,7 +44,191 @@ export default {
     {
       type: "image",
       name: "cover",
+      fields: [
+        {
+          name: "caption",
+          title: "Caption",
+          type: "string",
+          options: { isHighlighted: true },
+        },
+      ],
       validation: (Rule) => Rule.required(),
+    },
+    {
+      type: "array",
+      name: "sections",
+      of: [
+        {
+          type: "object",
+          name: "intro",
+          fields: [
+            {
+              type: "image",
+              name: "image",
+              fields: [
+                {
+                  name: "caption",
+                  title: "Caption",
+                  type: "string",
+                  options: { isHighlighted: true },
+                },
+              ],
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              type: "string",
+              name: "title",
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: "content",
+              type: "array",
+              of: textConfig,
+            },
+          ],
+          preview: {
+            select: { title: "title", media: "image" },
+            prepare: ({ title, media }) => ({
+              title: `Introduction: ${title}`,
+              media,
+            }),
+          },
+        },
+        {
+          type: "object",
+          name: "text_section",
+          fields: [
+            {
+              name: "content",
+              type: "array",
+              of: textConfig,
+            },
+          ],
+          preview: {
+            select: { content: "content.0.children.0.text" },
+            prepare: ({ content }) => ({
+              title: `Text: ${content.slice(0, 100)}...`,
+            }),
+          },
+        },
+        {
+          type: "object",
+          name: "highlight",
+          fields: [
+            {
+              type: "image",
+              name: "image",
+              fields: [
+                {
+                  name: "caption",
+                  title: "Caption",
+                  type: "string",
+                  options: { isHighlighted: true },
+                },
+              ],
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: "content",
+              type: "array",
+              of: textConfig,
+            },
+          ],
+          preview: {
+            select: { content: "content.0.children.0.text", media: "image" },
+            prepare: ({ content, media }) => ({
+              title: `Highlight: ${content}`,
+              media,
+            }),
+          },
+        },
+        {
+          type: "object",
+          name: "picture",
+          fields: [
+            {
+              type: "image",
+              name: "image",
+              fields: [
+                {
+                  name: "caption",
+                  title: "Caption",
+                  type: "string",
+                  options: { isHighlighted: true },
+                },
+              ],
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              type: "string",
+              name: "mode",
+              options: {
+                list: ["full", "left", "right", "poster"],
+                layout: "radio",
+              },
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: { media: "image" },
+            prepare: ({ media }) => ({ title: `Picture`, media }),
+          },
+        },
+        {
+          type: "object",
+          name: "gallery",
+          fields: [
+            {
+              type: "boolean",
+              name: "show_caroussel",
+              initialValue: false,
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              type: "array",
+              name: "content",
+              options: { layout: "grid" },
+              validation: (Rule) => Rule.required(),
+              of: [
+                {
+                  type: "image",
+                  name: "image",
+                  fields: [
+                    {
+                      name: "caption",
+                      title: "Caption",
+                      type: "string",
+                      options: { isHighlighted: true },
+                    },
+                  ],
+                  validation: (Rule) => Rule.required(),
+                },
+                {
+                  type: "object",
+                  name: "content",
+                  validation: (Rule) => Rule.required(),
+                  fields: [
+                    {
+                      name: "text",
+                      type: "array",
+                      of: textConfig,
+                    },
+                  ],
+                  preview: {
+                    prepare: () => ({ media: <div>Text</div> }),
+                  },
+                },
+              ],
+            },
+          ],
+          preview: {
+            select: { caroussel: "show_caroussel" },
+            prepare: ({ caroussel }) => ({
+              title: caroussel ? "Caroussel" : "Gallery",
+            }),
+          },
+        },
+      ],
     },
   ],
 };
