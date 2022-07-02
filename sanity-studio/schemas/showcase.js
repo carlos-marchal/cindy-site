@@ -197,28 +197,50 @@ export default {
                   ],
                   validation: (Rule) => Rule.required(),
                 },
+              ],
+            },
+          ],
+          preview: {
+            prepare: () => ({
+              title: "Gallery",
+            }),
+          },
+        },
+        {
+          type: "object",
+          name: "caroussel",
+          fields: [
+            {
+              name: "intro",
+              type: "array",
+              of: textConfig,
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              type: "array",
+              name: "content",
+              options: { layout: "grid" },
+              validation: (Rule) => Rule.required(),
+              of: [
                 {
-                  type: "object",
-                  name: "content",
-                  validation: (Rule) => Rule.required(),
+                  type: "image",
+                  name: "image",
                   fields: [
                     {
-                      name: "text",
-                      type: "array",
-                      of: textConfig,
+                      name: "caption",
+                      title: "Caption",
+                      type: "string",
+                      options: { isHighlighted: true },
                     },
                   ],
-                  preview: {
-                    prepare: () => ({ media: <div>Text</div> }),
-                  },
+                  validation: (Rule) => Rule.required(),
                 },
               ],
             },
           ],
           preview: {
-            select: { caroussel: "show_caroussel" },
-            prepare: ({ caroussel }) => ({
-              title: caroussel ? "Caroussel" : "Gallery",
+            prepare: () => ({
+              title: "Caroussel",
             }),
           },
         },
