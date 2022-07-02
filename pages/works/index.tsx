@@ -4,10 +4,10 @@ import { groq } from "next-sanity";
 import Head from "next/head";
 import { useState } from "react";
 import styled from "styled-components";
-import { Header } from "../components/header";
-import { SanityImageReference, SanityProps } from "../sanity-client/config";
-import { sanityImageProps, useSanityData } from "../sanity-client/sanity";
-import { getSanityStaticProps } from "../sanity-client/sanity.server";
+import { Header } from "../../components/header";
+import { SanityImageReference, SanityProps } from "../../sanity-client/config";
+import { sanityImageProps, useSanityData } from "../../sanity-client/sanity";
+import { getSanityStaticProps } from "../../sanity-client/sanity.server";
 import Link from "next/link";
 
 interface WorksData {
@@ -137,7 +137,6 @@ const A = styled.a`
 const Showcase = (props: ShowcaseProps) => {
   const showcase = props.children;
   const imageProps = sanityImageProps(showcase.cover, "fill");
-  console.log(showcase);
   return (
     <li>
       <Link href={`/works/${showcase.slug}`} passHref>
