@@ -1,4 +1,4 @@
-import { GetStaticPropsResult } from "next";
+import { GetStaticPathsResult, GetStaticPropsResult } from "next";
 import { createClient } from "next-sanity";
 import {
   getSanityData,
@@ -20,6 +20,14 @@ const previewClient = createClient({
 
 const getClient = (usePreview: boolean) =>
   usePreview ? previewClient : sanityClient;
+
+export async function getSanityStaticPaths(
+  query: string,
+  transform: (entry: any) => string
+): Promise<GetStaticPathsResult> {
+  const response = await getClient(false).fetch(query);
+  return { paths: response.map(transform), fallback: false };
+}
 
 export async function getSanityStaticProps<T extends unknown[]>(
   queries: string[],
