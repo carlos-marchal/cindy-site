@@ -22,6 +22,8 @@ function getPath(document) {
       return "";
     case "works":
       return "works";
+    case "showcase":
+      return `works/${document.slug.current}`;
   }
   return "";
 }
