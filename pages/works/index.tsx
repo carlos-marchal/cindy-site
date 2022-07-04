@@ -1,33 +1,23 @@
 import type { GetStaticProps, NextPage } from "next";
-import Image from "next/image";
 import { groq } from "next-sanity";
 import Head from "next/head";
 import { useState } from "react";
 import styled from "styled-components";
 import { Header } from "../../components/header";
-import { SanityImageReference, SanityProps } from "../../sanity-client/config";
-import { sanityImageProps, useSanityData } from "../../sanity-client/sanity";
+import { SanityProps } from "../../sanity-client/config";
+import { useSanityData } from "../../sanity-client/sanity";
 import { getSanityStaticProps } from "../../sanity-client/sanity.server";
-import Link from "next/link";
 import { Footer } from "../../components/footer";
+import {
+  ShowcaseList,
+  ShowcaseThumbnailData,
+  ShowcaseThumnbailCategory,
+} from "../../components/showcases";
 
 interface WorksData {
   title: string;
-  category_filter: WorksCategory[];
-  showcases: WorksShowcase[];
-}
-
-interface WorksCategory {
-  _id: string;
-  name: string;
-}
-
-interface WorksShowcase {
-  _id: string;
-  title: string;
-  slug: string;
-  category: WorksCategory;
-  cover: SanityImageReference;
+  category_filter: ShowcaseThumnbailCategory[];
+  showcases: ShowcaseThumbnailData[];
 }
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
@@ -73,22 +63,6 @@ const Label = styled.label<{ checked: boolean }>`
   margin-bottom: 20px;
 `;
 
-const Showcases = styled.ul`
-  display: grid;
-  gap: 10px;
-  margin: 0 var(--lateral-margin);
-  margin-bottom: var(--lateral-margin);
-  justify-content: center;
-  --column-width: 300px;
-  --row-height: 210px;
-  grid-template-columns: repeat(auto-fill, var(--column-width));
-  @media (min-width: 768px) {
-    gap: 40px 30px;
-    --column-width: 385px;
-    --row-height: 270px;
-  }
-`;
-
 type WorksProps = SanityProps<[WorksData]>;
 
 const WorksPage: NextPage<WorksProps> = (props) => {
@@ -126,39 +100,10 @@ const WorksPage: NextPage<WorksProps> = (props) => {
             </Label>
           ))}
         </CategoryFilter>
-        <Showcases>
-          {showcases.map((showcase) => (
-            <Showcase key={showcase._id}>{showcase}</Showcase>
-          ))}
-        </Showcases>
+        <ShowcaseList>{showcases}</ShowcaseList>
       </Main>
       <Footer contact={settings.contact_information} />
     </Root>
-  );
-};
-
-interface ShowcaseProps {
-  children: WorksShowcase;
-}
-
-const A = styled.a`
-  width: var(--column-width);
-  height: var(--row-height);
-  position: relative;
-  display: block;
-`;
-
-const Showcase = (props: ShowcaseProps) => {
-  const showcase = props.children;
-  const imageProps = sanityImageProps(showcase.cover, "fill");
-  return (
-    <li>
-      <Link href={`/works/${showcase.slug}`} passHref>
-        <A>
-          <Image {...imageProps} alt={showcase.title} objectFit="cover" />
-        </A>
-      </Link>
-    </li>
   );
 };
 
