@@ -246,5 +246,18 @@ export default {
         },
       ],
     },
+    {
+      type: "array",
+      name: "related",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "showcase" }],
+          options: { disableNew: true },
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+      validation: (Rule) => Rule.unique(),
+    },
   ],
 };

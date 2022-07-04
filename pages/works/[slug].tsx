@@ -39,6 +39,7 @@ interface WorksData {
   title: string;
   sections: SectionData[];
   category: string;
+  related: string[] | null;
 }
 
 type SectionData =
@@ -65,7 +66,11 @@ export const getStaticProps: GetStaticProps = async ({
   const { slug } = params as Record<string, string>;
   const props = await getSanityStaticProps(
     [
-      groq`*[_type == "showcase" && slug.current == "${slug}"]{ _id, title, sections, "category": category->name }`,
+      groq`*[_type == "showcase" && slug.current == "${slug}"]{ 
+        _id, title, sections,
+        "category": category->name,
+        "related": related[]->slug.current }
+      `,
     ],
     preview
   );
@@ -82,6 +87,7 @@ const Main = styled.main`
 
 const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
   const [settings, data] = useSanityData(props);
+  console.log(data);
   return (
     <>
       <Head>
