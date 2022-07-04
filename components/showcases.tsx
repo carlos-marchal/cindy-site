@@ -46,7 +46,6 @@ const UL = styled.ul`
   display: grid;
   gap: 10px;
   margin: 0 var(--lateral-margin);
-  margin-bottom: var(--lateral-margin);
   justify-content: center;
   --column-width: 300px;
   --row-height: 210px;

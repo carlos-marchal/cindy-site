@@ -41,6 +41,7 @@ const Root = styled.div`
 
 const Main = styled.main`
   flex-grow: 1;
+  margin-bottom: var(--lateral-margin);
 `;
 
 const CategoryFilter = styled.form`
