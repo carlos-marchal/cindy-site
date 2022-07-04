@@ -34,12 +34,16 @@ import {
 import { Header } from "../../components/header";
 import styled from "styled-components";
 import { Footer } from "../../components/footer";
+import {
+  ShowcaseList,
+  ShowcaseThumbnailData,
+} from "../../components/showcases";
 
 interface WorksData {
   title: string;
   sections: SectionData[];
   category: string;
-  related: string[] | null;
+  related: ShowcaseThumbnailData[] | null;
 }
 
 type SectionData =
@@ -69,8 +73,8 @@ export const getStaticProps: GetStaticProps = async ({
       groq`*[_type == "showcase" && slug.current == "${slug}"]{ 
         _id, title, sections,
         "category": category->name,
-        "related": related[]->slug.current }
-      `,
+        "related": related[]->{ _id, category->{ _id, name }, cover, "slug": slug.current, title }
+      }`,
     ],
     preview
   );
@@ -82,6 +86,25 @@ const Main = styled.main`
 
   @media (min-width: 768px) {
     margin-top: 0;
+  }
+`;
+
+const RelatedWorks = styled.section`
+  color: var(--white);
+  background: var(--black);
+  padding-top: 30px;
+`;
+
+const RelatedWorksHeader = styled.header`
+  font: var(--header-font);
+  margin: 0 var(--lateral-margin) 30px var(--lateral-margin);
+  padding: 15px 10px;
+  border-bottom: 2px solid currentColor;
+
+  @media (min-width: 768px) {
+    font-size: 60px;
+    padding: 15px 0;
+    margin-bottom: 50px;
   }
 `;
 
@@ -117,6 +140,12 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
               return <CarousselSection key={index}>{section}</CarousselSection>;
           }
         })}
+        {data.related !== null && (
+          <RelatedWorks>
+            <RelatedWorksHeader>Otros Proyectos</RelatedWorksHeader>
+            <ShowcaseList>{data.related}</ShowcaseList>
+          </RelatedWorks>
+        )}
       </Main>
       <Footer contact={settings.contact_information} />
     </>
