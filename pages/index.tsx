@@ -3,7 +3,6 @@ import { groq } from "next-sanity";
 import Head from "next/head";
 import styled from "styled-components";
 import { Arrow } from "../components/arrow";
-import { Footer } from "../components/footer";
 import { Header } from "../components/header";
 import { SanityProps } from "../sanity-client/config";
 import { useSanityData } from "../sanity-client/sanity";
@@ -12,6 +11,7 @@ import { getSanityStaticProps } from "../sanity-client/sanity.server";
 interface IndexData {
   title: string;
   main_text: string;
+  footer: string;
 }
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
@@ -39,6 +39,24 @@ const Main = styled.main`
   }
 `;
 
+const Footer = styled.footer`
+  margin: 0 var(--lateral-margin);
+  padding-bottom: 35px;
+  margin-bottom: 45px;
+  --border: 2px solid var(--black);
+  border-bottom: var(--border);
+
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+    padding: 40px 0 80px 0;
+    border-bottom: none;
+    border-top: var(--border);
+    display: flex;
+    justify-content: right;
+    align-items: baseline;
+  }
+`;
+
 type IndexProps = SanityProps<[IndexData]>;
 
 const IndexPage: NextPage<IndexProps> = (props) => {
@@ -60,7 +78,7 @@ const IndexPage: NextPage<IndexProps> = (props) => {
           Go to works
         </Arrow>
       </Main>
-      <Footer />
+      <Footer>{data.footer}</Footer>
     </Root>
   );
 };

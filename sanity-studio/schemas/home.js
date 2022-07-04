@@ -13,5 +13,10 @@ export default {
       name: "main_text",
       validation: (Rule) => Rule.required(),
     },
+    {
+      type: "string",
+      name: "footer",
+      validation: (Rule) => Rule.required(),
+    },
   ],
 };
