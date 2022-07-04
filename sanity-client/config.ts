@@ -43,6 +43,15 @@ export const sanitySettingsQuery = groq`*[_id == "site_settings"]`;
 export interface SiteSettings {
   title_prefix: string;
   navigation: SiteSettingsNavigation[];
+  contact_information: SiteContactInformation;
+}
+
+export interface SiteContactInformation {
+  email: string;
+  phone: string;
+  location: string;
+  linkedin_url: string;
+  instagram_url: string;
 }
 
 export interface SiteSettingsNavigation {

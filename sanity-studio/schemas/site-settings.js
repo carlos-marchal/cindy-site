@@ -28,5 +28,37 @@ export default {
         },
       ],
     },
+    {
+      name: "contact_information",
+      type: "object",
+      fields: [
+        {
+          name: "email",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "phone",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "location",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "linkedin_url",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: "instagram_url",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        },
+      ],
+      validation: (Rule) => Rule.required(),
+    },
   ],
 };
