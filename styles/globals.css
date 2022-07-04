@@ -54,3 +54,11 @@ body {
 h1 {
   font: var(--header-font);
 }
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--highlight);
+}
