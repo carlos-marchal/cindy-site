@@ -9,6 +9,7 @@ import { SanityImageReference, SanityProps } from "../../sanity-client/config";
 import { sanityImageProps, useSanityData } from "../../sanity-client/sanity";
 import { getSanityStaticProps } from "../../sanity-client/sanity.server";
 import Link from "next/link";
+import { Footer } from "../../components/footer";
 
 interface WorksData {
   title: string;
@@ -41,6 +42,16 @@ export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
     preview
   );
 };
+
+const Root = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Main = styled.main`
+  flex-grow: 1;
+`;
 
 const CategoryFilter = styled.form`
   --items-margin: 40px;
@@ -87,39 +98,42 @@ const WorksPage: NextPage<WorksProps> = (props) => {
     (showcase) => selected === undefined || showcase.category._id === selected
   );
   return (
-    <>
+    <Root>
       <Head>
         <title>{settings.title_prefix + data.title}</title>
         <meta name="description" content="Works description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header navItems={settings.navigation} />
-      <CategoryFilter>
-        <Label checked={selected === undefined}>
-          <input
-            type="radio"
-            onChange={() => setSelected(undefined)}
-            name="category"
-          />
-          All
-        </Label>
-        {data.category_filter.map((category) => (
-          <Label checked={selected === category._id} key={category._id}>
+      <Main>
+        <CategoryFilter>
+          <Label checked={selected === undefined}>
             <input
               type="radio"
-              onChange={() => setSelected(category._id)}
+              onChange={() => setSelected(undefined)}
               name="category"
             />
-            {category.name}
+            All
           </Label>
-        ))}
-      </CategoryFilter>
-      <Showcases>
-        {showcases.map((showcase) => (
-          <Showcase key={showcase._id}>{showcase}</Showcase>
-        ))}
-      </Showcases>
-    </>
+          {data.category_filter.map((category) => (
+            <Label checked={selected === category._id} key={category._id}>
+              <input
+                type="radio"
+                onChange={() => setSelected(category._id)}
+                name="category"
+              />
+              {category.name}
+            </Label>
+          ))}
+        </CategoryFilter>
+        <Showcases>
+          {showcases.map((showcase) => (
+            <Showcase key={showcase._id}>{showcase}</Showcase>
+          ))}
+        </Showcases>
+      </Main>
+      <Footer contact={settings.contact_information} />
+    </Root>
   );
 };
 
