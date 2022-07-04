@@ -62,7 +62,7 @@ export const getStaticProps: GetStaticProps = async ({
   const { slug } = params as Record<string, string>;
   const props = await getSanityStaticProps(
     [
-      groq`*[_type == "showcase" && slug.current == "${slug}"]{ title, sections, "category": category->name }`,
+      groq`*[_type == "showcase" && slug.current == "${slug}"]{ _id, title, sections, "category": category->name }`,
     ],
     preview
   );
