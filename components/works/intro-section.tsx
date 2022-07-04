@@ -15,10 +15,10 @@ const IntroSectionElement = styled.section`
   display: grid;
   grid-template-rows: 100vw auto;
   @media (min-width: 768px) {
-    min-height: 100vh;
+    min-height: 95vh;
     grid-template-rows: auto;
     grid-template-columns: 50% 50%;
-    padding: 10vh 0;
+    padding: 5vh 0 10vh 0;
   }
 `;
 
