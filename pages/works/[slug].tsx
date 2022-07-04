@@ -33,6 +33,7 @@ import {
 } from "../../components/works/caroussel-section";
 import { Header } from "../../components/header";
 import styled from "styled-components";
+import { Footer } from "../../components/footer";
 
 interface WorksData {
   title: string;
@@ -75,7 +76,7 @@ const Main = styled.main`
   margin-top: 40px;
 
   @media (min-width: 768px) {
-  margin-top: 0;
+    margin-top: 0;
   }
 `;
 
@@ -111,6 +112,7 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
           }
         })}
       </Main>
+      <Footer contact={settings.contact_information} />
     </>
   );
 };
