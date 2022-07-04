@@ -1,12 +1,22 @@
+import Link from "next/link";
+import React from "react";
 import styled from "styled-components";
 
 export type ArrowDirection = "down" | "right";
 
-export interface ArrowProps {
+export interface ArrowButtonProps {
   direction: ArrowDirection;
   children: string;
   onClick: () => void;
 }
+
+export interface ArrowLinkProps {
+  direction: ArrowDirection;
+  children: string;
+  href: string;
+}
+
+export type ArrowProps = ArrowButtonProps | ArrowLinkProps;
 
 const Button = styled.button`
   display: block;
@@ -21,8 +31,20 @@ const SVG = styled.svg<{ direction: ArrowDirection }>`
   }
 `;
 
-export const Arrow = (props: ArrowProps) => (
-  <Button onClick={props.onClick}>
+function wrapArrow(props: ArrowProps, content: React.ReactNode) {
+  if ("onClick" in props) {
+    return <Button onClick={props.onClick}>{content}</Button>;
+  }
+  return (
+    <Link href={props.href} passHref>
+      <Button as="a">{content}</Button>
+    </Link>
+  );
+}
+
+export const Arrow = (props: ArrowProps) =>
+  wrapArrow(
+    props,
     <SVG
       direction={props.direction}
       viewBox="0 0 69 65"
@@ -36,5 +58,4 @@ export const Arrow = (props: ArrowProps) => (
         strokeWidth="2"
       />
     </SVG>
-  </Button>
-);
+  );

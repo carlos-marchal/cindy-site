@@ -74,7 +74,7 @@ const IndexPage: NextPage<IndexProps> = (props) => {
       <Header navItems={settings.navigation} />
       <Main>
         {data.main_text}
-        <Arrow direction="down" onClick={() => {}}>
+        <Arrow direction="down" href="/works">
           Go to works
         </Arrow>
       </Main>
