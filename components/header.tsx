@@ -8,7 +8,7 @@ const HeaderElement = styled.header`
   justify-content: space-between;
   margin: 0 var(--lateral-margin);
   padding: 35px 0;
-  border-bottom: 2px solid var(--black);
+  border-bottom: 2px solid currentColor;
 `;
 
 const HamburgerButton = styled.button`
