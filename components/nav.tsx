@@ -14,6 +14,7 @@ const NavElement = styled.nav`
   font: var(--header-font);
   display: grid;
   place-items: center;
+  text-align: center;
 
   a {
     text-decoration: none;
