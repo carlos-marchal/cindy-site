@@ -6,6 +6,7 @@ import homePage from "./home";
 import worksPage from "./works";
 import category from "./category";
 import showcase from "./showcase";
+import contact from "./contact";
 
 export default createSchema({
   name: "default",
@@ -15,5 +16,6 @@ export default createSchema({
     worksPage,
     category,
     showcase,
+    contact,
   ]),
 });
