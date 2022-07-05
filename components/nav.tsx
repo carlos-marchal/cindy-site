@@ -4,6 +4,7 @@ import { SiteSettingsNavigation } from "../sanity-client/config";
 
 const NavElement = styled.nav`
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -13,6 +14,10 @@ const NavElement = styled.nav`
   font: var(--header-font);
   display: grid;
   place-items: center;
+
+  a {
+    text-decoration: none;
+  }
 
   a:hover,
   button:hover {
