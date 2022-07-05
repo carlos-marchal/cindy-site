@@ -42,6 +42,7 @@ import {
   ShowcaseList,
   ShowcaseThumbnailData,
 } from "../../components/showcases";
+import { HeadData } from "../../components/head-data";
 
 interface WorksData {
   title: string;
@@ -118,15 +119,11 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
   const [settings, data] = useSanityData(props);
   return (
     <>
-      <Head>
-        <title>{settings.title_prefix + data.title}</title>
-        <meta name="description" content={data.description} />
-        <meta
-          property="og:image"
-          content={urlFor(data.cover).width(1200).toString()}
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadData
+        title={settings.title_prefix + data.title}
+        description={data.description}
+        image={data.cover}
+      />
       <Header navItems={settings.navigation} />
       <Main>
         {data.sections.map((section, index) => {

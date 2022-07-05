@@ -1,18 +1,14 @@
 import type { GetStaticProps, NextPage } from "next";
 import { groq } from "next-sanity";
-import Head from "next/head";
 import Image from "next/image";
 import styled from "styled-components";
+import { HeadData } from "../components/head-data";
 import { Header } from "../components/header";
 import {
   PortableTextData,
   TextRenderer,
 } from "../components/works/text-renderer";
-import {
-  SanityImageReference,
-  SanityProps,
-  urlFor,
-} from "../sanity-client/config";
+import { SanityImageReference, SanityProps } from "../sanity-client/config";
 import { sanityImageProps, useSanityData } from "../sanity-client/sanity";
 import { getSanityStaticProps } from "../sanity-client/sanity.server";
 
@@ -84,15 +80,11 @@ const AboutPage: NextPage<AboutProps> = (props) => {
   const imageProps = sanityImageProps(data.portrait, "responsive");
   return (
     <Root>
-      <Head>
-        <title>{settings.title_prefix + data.title}</title>
-        <meta name="description" content={settings.description} />
-        <meta
-          property="og:image"
-          content={urlFor(settings.preview).width(1200).toString()}
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadData
+        title={settings.title_prefix + data.title}
+        description={settings.description}
+        image={settings.preview}
+      />
       <Header navItems={settings.navigation} />
       <Main>
         <Portrait>

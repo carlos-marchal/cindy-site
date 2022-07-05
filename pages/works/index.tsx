@@ -1,10 +1,9 @@
 import type { GetStaticProps, NextPage } from "next";
 import { groq } from "next-sanity";
-import Head from "next/head";
 import { useState } from "react";
 import styled from "styled-components";
 import { Header } from "../../components/header";
-import { SanityProps, urlFor } from "../../sanity-client/config";
+import { SanityProps } from "../../sanity-client/config";
 import { useSanityData } from "../../sanity-client/sanity";
 import { getSanityStaticProps } from "../../sanity-client/sanity.server";
 import { Footer } from "../../components/footer";
@@ -13,6 +12,7 @@ import {
   ShowcaseThumbnailData,
   ShowcaseThumnbailCategory,
 } from "../../components/showcases";
+import { HeadData } from "../../components/head-data";
 
 interface WorksData {
   title: string;
@@ -74,15 +74,11 @@ const WorksPage: NextPage<WorksProps> = (props) => {
   );
   return (
     <Root>
-      <Head>
-        <title>{settings.title_prefix + data.title}</title>
-        <meta name="description" content={settings.description} />
-        <meta
-          property="og:image"
-          content={urlFor(settings.preview).width(1200).toString()}
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <HeadData
+        title={settings.title_prefix + data.title}
+        description={settings.description}
+        image={settings.preview}
+      />
       <Header navItems={settings.navigation} />
       <Main>
         <CategoryFilter>
