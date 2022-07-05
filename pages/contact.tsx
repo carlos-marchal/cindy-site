@@ -8,7 +8,7 @@ import {
   PortableTextData,
   TextRenderer,
 } from "../components/works/text-renderer";
-import { SanityProps } from "../sanity-client/config";
+import { SanityProps, urlFor } from "../sanity-client/config";
 import { useSanityData } from "../sanity-client/sanity";
 import { getSanityStaticProps } from "../sanity-client/sanity.server";
 
@@ -48,7 +48,11 @@ const ContactPage: NextPage<ContactProps> = (props) => {
     <Root>
       <Head>
         <title>{settings.title_prefix + data.title}</title>
-        <meta name="description" content="Home description" />
+        <meta name="description" content={settings.description} />
+        <meta
+          property="og:image"
+          content={urlFor(settings.preview).width(1200).toString()}
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header navItems={settings.navigation} />

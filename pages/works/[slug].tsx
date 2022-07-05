@@ -1,7 +1,11 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { groq } from "next-sanity";
 import Head from "next/head";
-import { SanityProps } from "../../sanity-client/config";
+import {
+  SanityImageReference,
+  SanityProps,
+  urlFor,
+} from "../../sanity-client/config";
 import { useSanityData } from "../../sanity-client/sanity";
 import {
   getSanityStaticPaths,
@@ -41,6 +45,8 @@ import {
 
 interface WorksData {
   title: string;
+  description: string;
+  cover: SanityImageReference;
   sections: SectionData[];
   category: string;
   related: ShowcaseThumbnailData[] | null;
@@ -71,7 +77,7 @@ export const getStaticProps: GetStaticProps = async ({
   const props = await getSanityStaticProps(
     [
       groq`*[_type == "showcase" && slug.current == "${slug}"]{ 
-        _id, title, sections,
+        _id, title, sections, cover,
         "category": category->name,
         "related": related[]->{ _id, category->{ _id, name }, cover, "slug": slug.current, title }
       }`,
@@ -114,7 +120,11 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
     <>
       <Head>
         <title>{settings.title_prefix + data.title}</title>
-        <meta name="description" content="Works description" />
+        <meta name="description" content={data.description} />
+        <meta
+          property="og:image"
+          content={urlFor(data.cover).width(1200).toString()}
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header navItems={settings.navigation} />

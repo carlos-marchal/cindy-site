@@ -42,6 +42,8 @@ export const sanitySettingsQuery = groq`*[_id == "site_settings"]`;
 
 export interface SiteSettings {
   title_prefix: string;
+  description: string;
+  preview: SanityImageReference;
   navigation: SiteSettingsNavigation[];
   contact_information: SiteContactInformation;
 }
