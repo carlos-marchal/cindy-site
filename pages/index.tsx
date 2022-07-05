@@ -64,10 +64,7 @@ const IndexPage: NextPage<IndexProps> = (props) => {
   return (
     <Root>
       <Head>
-        <title>
-          {settings.title_prefix}
-          {data.title}
-        </title>
+        <title>{settings.title_prefix + data.title}</title>
         <meta name="description" content="Home description" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
