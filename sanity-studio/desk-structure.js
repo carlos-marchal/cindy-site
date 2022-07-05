@@ -13,9 +13,12 @@ export default () =>
       S.listItem()
         .title("Contact Page")
         .child(S.document().schemaType("contact").documentId("contact")),
+      S.listItem()
+        .title("About Page")
+        .child(S.document().schemaType("about").documentId("about")),
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !["site_settings", "home", "works", "contact"].includes(
+          !["site_settings", "home", "works", "contact", "about"].includes(
             listItem.getId()
           )
       ),

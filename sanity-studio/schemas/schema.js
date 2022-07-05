@@ -4,9 +4,10 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import siteSetting from "./site-settings";
 import homePage from "./home";
 import worksPage from "./works";
+import contactPage from "./contact";
+import aboutPage from "./about";
 import category from "./category";
 import showcase from "./showcase";
-import contact from "./contact";
 
 export default createSchema({
   name: "default",
@@ -16,6 +17,7 @@ export default createSchema({
     worksPage,
     category,
     showcase,
-    contact,
+    contactPage,
+    aboutPage,
   ]),
 });
