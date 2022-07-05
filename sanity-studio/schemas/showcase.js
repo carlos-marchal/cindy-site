@@ -11,6 +11,11 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      type: "string",
+      name: "description",
+      validation: (Rule) => Rule.required().min(25).max(140),
+    },
+    {
       type: "slug",
       name: "slug",
       options: { source: "title" },

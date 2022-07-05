@@ -8,6 +8,16 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      type: "string",
+      name: "description",
+      validation: (Rule) => Rule.required().min(25).max(140),
+    },
+    {
+      type: "image",
+      name: "preview",
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: "navigation",
       type: "array",
       of: [
