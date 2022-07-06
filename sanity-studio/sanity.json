@@ -3,10 +3,6 @@
   "project": {
     "name": "cindy-site"
   },
-  "api": {
-    "projectId": "oqid2l47",
-    "dataset": "production"
-  },
   "plugins": [
     "@sanity/base",
     "@sanity/default-layout",
