@@ -107,7 +107,7 @@ const WorksPage: NextPage<WorksProps> = (props) => {
         </CategoryFilter>
         <ShowcaseList>{showcases}</ShowcaseList>
       </Main>
-      <Footer contact={settings.contact_information} />
+      <Footer contact={settings.contact_information} showBackToTop />
     </Root>
   );
 };
