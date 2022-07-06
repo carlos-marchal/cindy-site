@@ -1,4 +1,5 @@
 import { PortableText, PortableTextProps } from "@portabletext/react";
+import Link from "next/link";
 import styled from "styled-components";
 
 export type PortableTextData = PortableTextProps["value"];
@@ -20,6 +21,18 @@ export const TextRenderer = (props: TextRendererProps) => (
     components={{
       block: {
         header: (props) => <HeaderElement>{props.children}</HeaderElement>,
+      },
+      marks: {
+        link: (props) =>
+          props.value.href.includes(":") ? (
+            <a href={props.value.href} target="_blank" rel="noreferrer">
+              {props.children}
+            </a>
+          ) : (
+            <Link href={props.value.href}>
+              <a>{props.children}</a>
+            </Link>
+          ),
       },
     }}
     value={props.children}
