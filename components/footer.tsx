@@ -75,18 +75,10 @@ export const Footer = (props: FooterProps) => (
   <FooterElement>
     <FooterLinks>
       <a href={`mailto:${props.contact.email}`}>{props.contact.email}</a>
-      <a
-        href={props.contact.linkedin_url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={props.contact.linkedin_url} target="_blank" rel="noreferrer">
         Linkedin
       </a>
-      <a
-        href={props.contact.instagram_url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={props.contact.instagram_url} target="_blank" rel="noreferrer">
         Instagram
       </a>
       <a href={`tel:${props.contact.phone}`}>{props.contact.phone}</a>
