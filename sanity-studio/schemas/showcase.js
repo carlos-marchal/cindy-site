@@ -201,7 +201,6 @@ export default {
               name: "intro",
               type: "array",
               of: textConfig,
-              validation: (Rule) => Rule.required(),
             },
             {
               type: "array",

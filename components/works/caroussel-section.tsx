@@ -7,7 +7,7 @@ import { PortableTextData, TextRenderer } from "./text-renderer";
 
 export interface CarousselSectionData {
   _type: "caroussel";
-  intro: PortableTextData;
+  intro?: PortableTextData;
   content: SanityImageReference[];
 }
 
@@ -85,11 +85,12 @@ export const CarousselSection = (props: CarousselSectionProps) => {
       caroussel.scroll({ left: scrollLeft });
     };
 
-  const intro = (
-    <CarousselSectionIntro>
-      <TextRenderer>{props.children.intro}</TextRenderer>
-    </CarousselSectionIntro>
-  );
+  const intro =
+    props.children.intro === undefined ? null : (
+      <CarousselSectionIntro>
+        <TextRenderer>{props.children.intro}</TextRenderer>
+      </CarousselSectionIntro>
+    );
 
   return (
     <CarousselSectionElement>
