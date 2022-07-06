@@ -157,7 +157,7 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
           </RelatedWorks>
         )}
       </Main>
-      <Footer contact={settings.contact_information} />
+      <Footer contact={settings.contact_information} showBackToTop />
     </>
   );
 };
