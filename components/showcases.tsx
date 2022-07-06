@@ -18,10 +18,28 @@ export interface ShowcaseThumbnailData {
 }
 
 const LI = styled.li`
-  background: red;
   box-sizing: content-box;
   padding-top: calc(0.7 * 100%);
   position: relative;
+`;
+
+const Caption = styled.div`
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--highlight);
+  color: var(--black);
+  padding: 30px;
+  display: grid;
+  align-content: end;
+  font: italic 18px "Grand Slang";
+
+  header {
+    font: 30px "Grand Slang";
+  }
 `;
 
 const A = styled.a`
@@ -31,6 +49,13 @@ const A = styled.a`
   right: 0;
   bottom: 0;
   display: block;
+  text-decoration: none;
+  :hover {
+    color: inherit;
+    ${Caption} {
+      visibility: visible;
+    }
+  }
 `;
 
 interface ShowcaseThumbnailProps {
@@ -50,6 +75,10 @@ const ShowcaseThumbnail = (props: ShowcaseThumbnailProps) => {
             objectFit="cover"
             sizes="(min-width: 1800px) 25vw, (min-width: 1400px) 33vw, (min-width: 1000px) 50vw, 100vw"
           />
+          <Caption>
+            <header>{props.children.title}</header>
+            <div>{props.children.category.name}</div>
+          </Caption>
         </A>
       </Link>
     </LI>
