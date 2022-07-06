@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { SiteSettingsNavigation } from "../sanity-client/config";
 
@@ -56,6 +58,13 @@ export interface NavProps {
 }
 
 export const Nav = (props: NavProps) => {
+  const router = useRouter();
+  useEffect(() => {
+    const listener = () => props.onClose();
+    router.events.on("routeChangeComplete", listener);
+    return () => router.events.off("routeChangeComplete", listener);
+  }, [props.onClose]);
+
   if (!props.show) {
     return null;
   }
@@ -68,7 +77,7 @@ export const Nav = (props: NavProps) => {
         {props.items.map((item, index) => (
           <li key={index}>
             <Link href={item.path}>
-              <a onClick={() => props.onClose()}>{item.name}</a>
+              <a>{item.name}</a>
             </Link>
           </li>
         ))}
