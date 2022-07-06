@@ -36,8 +36,20 @@ const FooterElement = styled.footer`
 export const Footer = (props: FooterProps) => (
   <FooterElement>
     <a href={`mailto:${props.contact.email}`}>{props.contact.email}</a>
-    <a href={props.contact.linkedin_url}>Linkedin</a>
-    <a href={props.contact.instagram_url}>Instagram</a>
+    <a
+      href={props.contact.linkedin_url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Linkedin
+    </a>
+    <a
+      href={props.contact.instagram_url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Instagram
+    </a>
     <a href={`tel:${props.contact.phone}`}>{props.contact.phone}</a>
     <span>{props.contact.location}</span>
   </FooterElement>
