@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import { SiteSettingsNavigation } from "../sanity-client/config";
@@ -9,12 +10,19 @@ const HeaderElement = styled.header`
   margin: 0 var(--lateral-margin);
   padding: 35px 0;
   border-bottom: 2px solid currentColor;
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 const HamburgerButton = styled.button`
   width: 16px;
   @media (min-width: 768px) {
     width: 25px;
+  }
+  :hover {
+    color: var(--highlight);
   }
 `;
 
@@ -26,7 +34,11 @@ export const Header = (props: HeaderProps) => {
   const [showNav, setShowNav] = useState(false);
   return (
     <HeaderElement>
-      <div>Cindy Adames</div>
+      <div>
+        <Link href="/">
+          <a>Cindy Adames</a>
+        </Link>
+      </div>
       <HamburgerButton onClick={() => setShowNav(true)}>
         <HamburgerIcon />
       </HamburgerButton>
