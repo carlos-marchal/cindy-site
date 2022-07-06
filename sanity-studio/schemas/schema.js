@@ -8,16 +8,26 @@ import contactPage from "./contact";
 import aboutPage from "./about";
 import category from "./category";
 import showcase from "./showcase";
+import { singletons } from "../singletons";
 
 export default createSchema({
   name: "default",
-  types: schemaTypes.concat([
-    siteSetting,
-    homePage,
-    worksPage,
-    category,
-    showcase,
-    contactPage,
-    aboutPage,
-  ]),
+  types: schemaTypes.concat(
+    [
+      siteSetting,
+      homePage,
+      worksPage,
+      category,
+      showcase,
+      contactPage,
+      aboutPage,
+    ].map((schema) =>
+      singletons.has(schema.name)
+        ? {
+            ...schema,
+            __experimental_actions: ["update", "publish"],
+          }
+        : schema
+    )
+  ),
 });
