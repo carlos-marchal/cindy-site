@@ -29,6 +29,7 @@ const CarousselSectionSlider = styled.div`
   grid-auto-columns: 70vw;
   grid-auto-flow: column;
   overflow-x: auto;
+  scroll-behavior: smooth;
 
   ::-webkit-scrollbar {
     display: none;
