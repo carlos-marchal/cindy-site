@@ -62,6 +62,10 @@ const Label = styled.label<{ checked: boolean }>`
   text-decoration: ${({ checked }) => (checked ? "underline" : "none")};
   margin-right: var(--items-margin);
   margin-bottom: 20px;
+
+  :hover {
+    color: var(--highlight);
+  }
 `;
 
 type WorksProps = SanityProps<[WorksData]>;
