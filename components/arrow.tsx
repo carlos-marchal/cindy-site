@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 
-export type ArrowDirection = "down" | "right";
+export type ArrowDirection = "up" | "down" | "right";
 
 export interface ArrowButtonProps {
   direction: ArrowDirection;
@@ -23,8 +23,9 @@ const Button = styled.button`
 `;
 
 const SVG = styled.svg<{ direction: ArrowDirection }>`
-  transform: ${({ direction }) =>
-    ({ down: "rotate(0)", right: "rotate(90deg)" }[direction])};
+  transform: rotate(
+    ${({ direction }) => ({ down: 0, right: 90, up: 180 }[direction])}deg
+  );
   width: 36px;
   @media (min-width: 768px) {
     width: 70px;
