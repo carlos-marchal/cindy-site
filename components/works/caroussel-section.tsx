@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { SanityImageReference } from "../../sanity-client/config";
 import { sanityImageProps } from "../../sanity-client/sanity";
@@ -13,7 +14,9 @@ export interface CarousselSectionData {
 const CarousselSectionElement = styled.section``;
 
 const CarousselSectionIntro = styled.div`
-  grid-column: 1 / 10;
+  text-align: center;
+  display: grid;
+  place-content: center;
   text-align: center;
 `;
 
@@ -44,25 +47,76 @@ const CarousselSectionSlider = styled.div`
   }
 `;
 
+const CarousselSectionEntry = styled.div`
+  position: relative;
+`;
+
+const CarousselSectionButton = styled.button<{ side: "left" | "right" }>`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  ${({ side }) => side}: 0;
+  ${({ side }) => (side === "left" ? "right" : "left")}: 50%;
+  color: transparent;
+  cursor: ${({ side }) => (side === "left" ? "w-resize" : "e-resize")};
+`;
+
 export interface CarousselSectionProps {
   children: CarousselSectionData;
 }
 
 export const CarousselSection = (props: CarousselSectionProps) => {
+  const [mobile, setMobile] = useState(true);
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 768px)");
+    setMobile(!query.matches);
+    const listener = (event: MediaQueryListEvent) => setMobile(!event.matches);
+    query.addEventListener("change", listener);
+    return () => query.removeEventListener("change", listener);
+  }, []);
+  const carousselRef = useRef<HTMLDivElement | null>(null);
+
+  const clickHandler =
+    (side: "left" | "right") => (event: MouseEvent<HTMLButtonElement>) => {
+      const entry = event.currentTarget.parentElement as HTMLDivElement;
+      const caroussel = carousselRef.current!;
+      const direction = side === "left" ? -1 : 1;
+      const scrollLeft = caroussel.scrollLeft + entry.clientWidth * direction;
+      caroussel.scroll({ left: scrollLeft });
+    };
+
+  const intro = (
+    <CarousselSectionIntro>
+      <TextRenderer>{props.children.intro}</TextRenderer>
+    </CarousselSectionIntro>
+  );
+
   return (
     <CarousselSectionElement>
-      <CarousselSectionIntro>
-        <TextRenderer>{props.children.intro}</TextRenderer>
-      </CarousselSectionIntro>
-      <CarousselSectionSlider>
+      {mobile && intro}
+      <CarousselSectionSlider ref={carousselRef}>
+        {!mobile && intro}
         {props.children.content.map((element, index) => {
           const imageProps = sanityImageProps(element, "responsive");
           return (
-            <Image
-              key={index}
-              {...imageProps}
-              sizes="(min-width: 1500px) 30vw, (min-width: 1000) 40vw, (min-width: 768px) 50vw, 70vw"
-            />
+            <CarousselSectionEntry key={index}>
+              <Image
+                {...imageProps}
+                sizes="(min-width: 1500px) 30vw, (min-width: 1000px) 40vw, (min-width: 768px) 50vw, 70vw"
+              />
+              <CarousselSectionButton
+                side="left"
+                onClick={clickHandler("left")}
+              >
+                Previous
+              </CarousselSectionButton>
+              <CarousselSectionButton
+                side="right"
+                onClick={clickHandler("right")}
+              >
+                Next
+              </CarousselSectionButton>
+            </CarousselSectionEntry>
           );
         })}
       </CarousselSectionSlider>
