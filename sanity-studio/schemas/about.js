@@ -43,7 +43,6 @@ export default {
                   lists: [],
                   marks: {
                     decorators: [{ title: "Emphasis", value: "em" }],
-                    annotations: [],
                   },
                 },
               ],
