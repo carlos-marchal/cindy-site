@@ -8,13 +8,13 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
-    "@sanity/production-preview"
+    "@sanity/production-preview",
+    "@sanity/dashboard",
+    "dashboard-widget-netlify"
   ],
   "env": {
     "development": {
-      "plugins": [
-        "@sanity/vision"
-      ]
+      "plugins": ["@sanity/vision"]
     }
   },
   "parts": [
@@ -29,6 +29,10 @@
     {
       "implements": "part:@sanity/production-preview/resolve-production-url",
       "path": "./resolve-production-url.js"
+    },
+    {
+      "implements": "part:@sanity/dashboard/config",
+      "path": "./dashboard-config.js"
     }
   ]
 }
