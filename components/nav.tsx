@@ -1,10 +1,10 @@
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { SiteSettingsNavigation } from "../sanity-client/config";
 
-const NavElement = styled.nav`
+const NavElement = styled(motion.nav)`
   position: fixed;
   z-index: 100;
   top: 0;
@@ -33,13 +33,14 @@ const CloseButton = styled.button`
   box-sizing: content-box;
   margin: -20px;
   padding: 20px;
-  --anchor: 50px;
-  right: var(--anchor);
-  top: var(--anchor);
-  width: 14px;
+  margin-right: -15px;
+  right: var(--lateral-margin);
+  top: 40px;
+  width: 16px;
   @media (min-width: 768px) {
-    --anchor: 100px;
-    width: 22px;
+    width: 25px;
+    margin-right: -20px;
+    margin-top: -24px;
   }
 `;
 
@@ -55,45 +56,120 @@ export interface NavProps {
   show?: boolean;
   onClose: () => void;
   items: SiteSettingsNavigation[];
+  appearAnchor: HTMLElement | null;
+}
+
+interface ClipCircleStyles {
+  closed: string;
+  open: string;
 }
 
 export const Nav = (props: NavProps) => {
-  const router = useRouter();
+  const clipCircle = useRef<ClipCircleStyles>({ closed: "none", open: "none" });
   useEffect(() => {
-    const listener = () => props.onClose();
-    router.events.on("routeChangeComplete", listener);
-    return () => router.events.off("routeChangeComplete", listener);
-  }, [props.onClose]);
-
-  if (!props.show) {
-    return null;
-  }
+    if (props.appearAnchor !== null) {
+      const maxScreenSize = Math.max(window.innerWidth, window.innerHeight);
+      const minSafeClipRadius = maxScreenSize * Math.sqrt(2);
+      const buttonRectangle = props.appearAnchor.getBoundingClientRect();
+      const x = buttonRectangle.x + buttonRectangle.width / 2;
+      const y = buttonRectangle.y + buttonRectangle.height / 2;
+      clipCircle.current = {
+        closed: `circle(20px at ${x}px ${y}px)`,
+        open: `circle(${minSafeClipRadius}px at ${x}px ${y}px)`,
+      };
+    }
+  }, [props.appearAnchor]);
+  
   return (
-    <NavElement>
-      <CloseButton onClick={() => props.onClose()}>
-        <CloseIcon />
-      </CloseButton>
-      <UL>
-        {props.items.map((item, index) => (
-          <li key={index}>
-            <Link href={item.path}>
-              <a>{item.name}</a>
-            </Link>
-          </li>
-        ))}
-      </UL>
-    </NavElement>
+    <AnimatePresence>
+      {props.show && (
+        <NavElement
+          variants={{
+            closed: (circle: RefObject<ClipCircleStyles>) => ({
+              clipPath: circle.current!.closed,
+            }),
+            open: (circle: RefObject<ClipCircleStyles>) => ({
+              clipPath: circle.current!.open,
+            }),
+          }}
+          initial="closed"
+          animate="open"
+          exit="closed"
+          custom={clipCircle}
+          transition={{ bounce: 0 }}
+        >
+          <CloseButton onClick={() => props.onClose()}>
+            <CloseIcon />
+          </CloseButton>
+          <UL>
+            {props.items.map((item, index) => (
+              <li key={index}>
+                <Link href={item.path}>
+                  <a onClick={() => props.onClose()}>{item.name}</a>
+                </Link>
+              </li>
+            ))}
+          </UL>
+        </NavElement>
+      )}
+    </AnimatePresence>
   );
 };
 
+const barVariants = (position: "top" | "bottom") => ({
+  hamburger: {
+    rotate: 0,
+    translateX: 0,
+    translateY: 0,
+    originX: 1,
+    originY: 0,
+  },
+  closed: {
+    rotate: position === "top" ? -45 : 45,
+    translateX: -3,
+    translateY: position === "top" ? 1 : -1,
+    originX: 1,
+    originY: position === "top" ? 0 : 1,
+  },
+});
+
 const CloseIcon = () => (
-  <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <title>Close Navigation</title>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M13.5815 12.1673C13.7767 12.3625 13.7767 12.6791 13.5815 12.8744L12.8744 13.5815C12.6791 13.7767 12.3625 13.7767 12.1673 13.5815L6.93503 8.34924L1.7028 13.5815C1.50753 13.7767 1.19095 13.7767 0.995689 13.5815L0.288582 12.8744C0.0933203 12.6791 0.0933203 12.3625 0.288582 12.1673L5.52081 6.93503L0.146447 1.56066C-0.0488155 1.3654 -0.0488155 1.04882 0.146447 0.853553L0.853553 0.146447C1.04882 -0.0488156 1.3654 -0.0488154 1.56066 0.146447L6.93503 5.52081L12.3094 0.146447C12.5047 -0.0488154 12.8212 -0.0488156 13.0165 0.146447L13.7236 0.853553C13.9189 1.04882 13.9189 1.3654 13.7236 1.56066L8.34924 6.93503L13.5815 12.1673Z"
+    <motion.rect
+      variants={barVariants("top")}
+      initial="hamburger"
+      animate="closed"
+      exit="hamburger"
+      width="25"
+      height="3"
+      rx="0.5"
       fill="currentColor"
+      transition={{ bounce: 0 }}
+    />
+    <motion.rect
+      variants={{ hamburger: { scaleX: 1 }, closed: { scaleX: 0 } }}
+      initial="hamburger"
+      animate="closed"
+      exit="hamburger"
+      y="9.5"
+      width="25"
+      height="3"
+      rx="0.5"
+      fill="currentColor"
+      transition={{ bounce: 0 }}
+    />
+    <motion.rect
+      variants={barVariants("bottom")}
+      initial="hamburger"
+      animate="closed"
+      exit="hamburger"
+      y="19"
+      width="25"
+      height="3"
+      rx="0.5"
+      fill="currentColor"
+      transition={{ bounce: 0 }}
     />
   </svg>
 );

@@ -32,6 +32,9 @@ export interface HeaderProps {
 
 export const Header = (props: HeaderProps) => {
   const [showNav, setShowNav] = useState(false);
+  const [navButtonRef, setNavButtonRef] = useState<HTMLButtonElement | null>(
+    null
+  );
   return (
     <HeaderElement>
       <div>
@@ -39,13 +42,14 @@ export const Header = (props: HeaderProps) => {
           <a>Cindy Adames</a>
         </Link>
       </div>
-      <HamburgerButton onClick={() => setShowNav(true)}>
+      <HamburgerButton ref={setNavButtonRef} onClick={() => setShowNav(true)}>
         <HamburgerIcon />
       </HamburgerButton>
       <Nav
         show={showNav}
         onClose={() => setShowNav(false)}
         items={props.navItems}
+        appearAnchor={navButtonRef}
       />
     </HeaderElement>
   );
