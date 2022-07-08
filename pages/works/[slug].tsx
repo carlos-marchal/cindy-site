@@ -1,11 +1,7 @@
+import { Fragment } from "react";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { groq } from "next-sanity";
-import Head from "next/head";
-import {
-  SanityImageReference,
-  SanityProps,
-  urlFor,
-} from "../../sanity-client/config";
+import { SanityImageReference, SanityProps } from "../../sanity-client/config";
 import { useSanityData } from "../../sanity-client/sanity";
 import {
   getSanityStaticPaths,
@@ -45,6 +41,7 @@ import {
 import { HeadData } from "../../components/head-data";
 
 interface WorksData {
+  slug: string;
   title: string;
   description: string;
   cover: SanityImageReference;
@@ -79,6 +76,7 @@ export const getStaticProps: GetStaticProps = async ({
     [
       groq`*[_type == "showcase" && slug.current == "${slug}"]{ 
         _id, title, description, sections, cover,
+        "slug": slug.current,
         "category": category->name,
         "related": related[]->{ 
           _id, title, cover,
@@ -121,8 +119,9 @@ const RelatedWorksHeader = styled.header`
 
 const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
   const [settings, data] = useSanityData(props);
+  console.log(data.slug);
   return (
-    <>
+    <Fragment key={data.slug}>
       <HeadData
         title={settings.title_prefix + data.title}
         description={data.description}
@@ -158,7 +157,7 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
         )}
       </Main>
       <Footer contact={settings.contact_information} showBackToTop />
-    </>
+    </Fragment>
   );
 };
 
