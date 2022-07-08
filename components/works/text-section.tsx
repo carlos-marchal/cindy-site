@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import { PortableTextData, TextRenderer } from "./text-renderer";
 
@@ -6,7 +7,7 @@ export interface TextSectionData {
   content: PortableTextData;
 }
 
-const TextSectionElement = styled.section`
+const TextSectionElement = styled(motion.section)`
   margin: var(--lateral-margin);
   margin-top: 0;
   p:not(:last-child) {
@@ -25,7 +26,12 @@ export interface TextSectionProps {
 }
 
 export const TextSection = (props: TextSectionProps) => (
-  <TextSectionElement>
+  <TextSectionElement
+    initial={{ opacity: 0, translateY: -50 }}
+    whileInView={{ opacity: 1, translateY: 0 }}
+    transition={{ delay: 0.5 }}
+    viewport={{ once: true }}
+  >
     <TextRenderer>{props.children.content}</TextRenderer>
   </TextSectionElement>
 );
