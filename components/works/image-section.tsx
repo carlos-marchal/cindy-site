@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import styled from "styled-components";
 import { SanityImageReference } from "../../sanity-client/config";
@@ -11,7 +12,7 @@ export interface ImageSectionData {
   mode: ImageSectionMode;
 }
 
-const ImageSectionElement = styled.section<{ mode: ImageSectionMode }>`
+const ImageSectionElement = styled(motion.section)<{ mode: ImageSectionMode }>`
   margin: var(--lateral-margin);
   margin-top: 0px;
   @media (min-width: 768px) {
@@ -33,7 +34,13 @@ export interface ImageSectionProps {
 export const ImageSection = (props: ImageSectionProps) => {
   const imageProps = sanityImageProps(props.children.image, "responsive");
   return (
-    <ImageSectionElement mode={props.children.mode}>
+    <ImageSectionElement
+      mode={props.children.mode}
+      initial={{ opacity: 0, translateY: -50 }}
+      whileInView={{ opacity: 1, translateY: 0 }}
+      transition={{ delay: 0.5 }}
+      viewport={{ once: true }}
+    >
       <Image
         {...imageProps}
         sizes={`(min-width: 768px) ${
