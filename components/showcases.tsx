@@ -17,7 +17,7 @@ export interface ShowcaseThumbnailData {
   cover: SanityImageReference;
 }
 
-const LI = styled.li`
+const LI = styled(motion.li)`
   box-sizing: content-box;
   padding-top: calc(0.7 * 100%);
   position: relative;
@@ -66,7 +66,12 @@ const ShowcaseThumbnail = (props: ShowcaseThumbnailProps) => {
   const showcase = props.children;
   const imageProps = sanityImageProps(showcase.cover, "fill");
   return (
-    <LI>
+    <LI
+      variants={{
+        shown: { opacity: 1, translateY: 0 },
+        hidden: { opacity: 0, translateY: -50 },
+      }}
+    >
       <Link href={`/works/${showcase.slug}`} passHref>
         <A>
           <Image
@@ -85,7 +90,7 @@ const ShowcaseThumbnail = (props: ShowcaseThumbnailProps) => {
   );
 };
 
-const UL = styled.ul`
+const UL = styled(motion.ul)`
   display: grid;
   gap: 10px;
   margin: 0 var(--lateral-margin);
@@ -103,7 +108,7 @@ export interface ShowcaseListProps {
 }
 
 export const ShowcaseList = (props: ShowcaseListProps) => (
-  <UL>
+  <UL initial="hidden" animate="shown" transition={{ staggerChildren: 0.25 }}>
     {props.children.map((showcase) => (
       <ShowcaseThumbnail key={showcase._id}>{showcase}</ShowcaseThumbnail>
     ))}
