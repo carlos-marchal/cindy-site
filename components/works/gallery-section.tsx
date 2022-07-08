@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import styled from "styled-components";
 import { SanityImageReference } from "../../sanity-client/config";
@@ -8,7 +9,7 @@ export interface GallerySectionData {
   content: SanityImageReference[];
 }
 
-const GallerySectionElement = styled.section`
+const GallerySectionElement = styled(motion.section)`
   display: grid;
   margin: var(--lateral-margin);
   gap: 30px;
@@ -24,7 +25,7 @@ const GallerySectionElement = styled.section`
   }
 `;
 
-const GalleryImage = styled.div`
+const GalleryImage = styled(motion.div)`
   grid-column: span 4;
   @media (min-width: 768px) and (max-width: 999px) {
     :last-child:nth-child(2n - 1) {
@@ -64,17 +65,27 @@ const GalleryImage = styled.div`
   }
 `;
 
+const motionVariants = {
+  shown: { opacity: 1, translateY: 0 },
+  hidden: { opacity: 0, translateY: -50 },
+};
+
 export interface GallerySectionProps {
   children: GallerySectionData;
 }
 
 export const GallerySection = (props: GallerySectionProps) => {
   return (
-    <GallerySectionElement>
+    <GallerySectionElement
+      initial="hidden"
+      whileInView="shown"
+      viewport={{ once: true }}
+      transition={{ delayChildren: 0.5, staggerChildren: 0.25 }}
+    >
       {props.children.content.map((element, index) => {
         const imageProps = sanityImageProps(element, "responsive");
         return (
-          <GalleryImage key={index}>
+          <GalleryImage key={index} variants={motionVariants}>
             <Image
               {...imageProps}
               sizes="(min-width: 1500px) 25vw, (min-width: 1000px) 33vw, (min-width: 768px) 50vw, 100vw"
