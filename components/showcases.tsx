@@ -35,7 +35,7 @@ const Caption = styled.div`
   padding: 30px;
   display: grid;
   align-content: end;
-  font: italic 18px "Grand Slang";
+  font: 18px "Neue Haas Grotesk Display";
 
   header {
     font: 30px "Grand Slang";
