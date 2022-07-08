@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
@@ -23,16 +24,16 @@ const LI = styled(motion.li)`
   position: relative;
 `;
 
-const Caption = styled.div`
-  visibility: hidden;
+const Caption = styled(motion.div)`
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: -110px;
+  left: -50px;
+  width: 100%;
+  height: 100%;
   background: var(--highlight);
   color: var(--black);
-  padding: 30px;
+  padding: 80px;
+  box-sizing: content-box;
   display: grid;
   align-content: end;
   font: 18px "Neue Haas Grotesk Display";
@@ -42,7 +43,7 @@ const Caption = styled.div`
   }
 `;
 
-const A = styled.a`
+const A = styled(motion.a)`
   position: absolute;
   top: 0;
   left: 0;
@@ -50,11 +51,10 @@ const A = styled.a`
   bottom: 0;
   display: block;
   text-decoration: none;
+  overflow-y: hidden;
+  overflow-x: hidden;
   :hover {
     color: inherit;
-    ${Caption} {
-      visibility: visible;
-    }
   }
 `;
 
@@ -73,14 +73,19 @@ const ShowcaseThumbnail = (props: ShowcaseThumbnailProps) => {
       }}
     >
       <Link href={`/works/${showcase.slug}`} passHref>
-        <A>
+        <A initial="hidden" whileHover="visible">
           <Image
             {...imageProps}
             alt={showcase.title}
             objectFit="cover"
             sizes="(min-width: 1800px) 25vw, (min-width: 1400px) 33vw, (min-width: 1000px) 50vw, 100vw"
           />
-          <Caption>
+          <Caption
+            variants={{
+              hidden: { translateY: "-100%" },
+              visible: { translateY: "0%" },
+            }}
+          >
             <header>{props.children.title}</header>
             <div>{props.children.category.name}</div>
           </Caption>
