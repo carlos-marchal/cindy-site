@@ -152,7 +152,7 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
         })}
         {data.related !== null && (
           <RelatedWorks>
-            <RelatedWorksHeader>Otros Proyectos</RelatedWorksHeader>
+            <RelatedWorksHeader>Related works</RelatedWorksHeader>
             <ShowcaseList>{data.related}</ShowcaseList>
           </RelatedWorks>
         )}
