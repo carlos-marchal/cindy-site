@@ -119,7 +119,6 @@ const RelatedWorksHeader = styled.header`
 
 const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
   const [settings, data] = useSanityData(props);
-  console.log(data.slug);
   return (
     <Fragment key={data.slug}>
       <HeadData
