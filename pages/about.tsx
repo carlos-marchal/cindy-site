@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import { groq } from "next-sanity";
 import Image from "next/image";
+import { Fragment } from "react";
 import styled from "styled-components";
 import { HeadData } from "../components/head-data";
 import { Header } from "../components/header";
@@ -91,13 +92,13 @@ const AboutPage: NextPage<AboutProps> = (props) => {
           <Image {...imageProps} sizes="(min-width: 768px) 30vw, 50vw" />
         </Portrait>
         <DL>
-          {data.entries.map((entry) => (
-            <>
+          {data.entries.map((entry, index) => (
+            <Fragment key={index}>
               <dt>{entry.period}</dt>
               <DD>
                 <TextRenderer>{entry.content}</TextRenderer>
               </DD>
-            </>
+            </Fragment>
           ))}
         </DL>
       </Main>
