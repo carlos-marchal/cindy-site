@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import styled from "styled-components";
 import { SanityImageReference } from "../../sanity-client/config";
 import { sanityImageProps } from "../../sanity-client/sanity";
@@ -57,7 +57,7 @@ const CarousselSectionSlider = styled.div`
   }
 `;
 
-const CarousselSectionEntry = styled.div`
+const CarousselSectionEntryElement = styled.div`
   position: relative;
 `;
 
@@ -68,7 +68,7 @@ const CarousselSectionButton = styled.button<{ side: "left" | "right" }>`
   ${({ side }) => side}: 0;
   width: 50%;
   color: transparent;
-  cursor: ${({ side }) => (side === "left" ? "w-resize" : "e-resize")};
+  cursor: none;
 `;
 
 export interface CarousselSectionProps {
@@ -78,14 +78,11 @@ export interface CarousselSectionProps {
 export const CarousselSection = (props: CarousselSectionProps) => {
   const carousselRef = useRef<HTMLDivElement | null>(null);
 
-  const clickHandler =
-    (side: "left" | "right") => (event: MouseEvent<HTMLButtonElement>) => {
-      const entry = event.currentTarget.parentElement as HTMLDivElement;
-      const caroussel = carousselRef.current!;
-      const direction = side === "left" ? -1 : 1;
-      const scrollLeft = caroussel.scrollLeft + entry.clientWidth * direction;
-      caroussel.scroll({ left: scrollLeft });
-    };
+  const slideHandler = (slide: number) => {
+    const caroussel = carousselRef.current!;
+    const scrollLeft = caroussel.scrollLeft + slide;
+    caroussel.scroll({ left: scrollLeft });
+  };
 
   return (
     <CarousselSectionElement>
@@ -95,30 +92,108 @@ export const CarousselSection = (props: CarousselSectionProps) => {
         </CarousselSectionIntro>
       )}
       <CarousselSectionSlider ref={carousselRef}>
-        {props.children.content.map((element, index) => {
-          const imageProps = sanityImageProps(element, "responsive");
-          return (
-            <CarousselSectionEntry key={index}>
-              <Image
-                {...imageProps}
-                sizes="(min-width: 1500px) 30vw, (min-width: 1000px) 40vw, (min-width: 768px) 50vw, 70vw"
-              />
-              <CarousselSectionButton
-                side="left"
-                onClick={clickHandler("left")}
-              >
-                Previous
-              </CarousselSectionButton>
-              <CarousselSectionButton
-                side="right"
-                onClick={clickHandler("right")}
-              >
-                Next
-              </CarousselSectionButton>
-            </CarousselSectionEntry>
-          );
-        })}
+        {props.children.content.map((element, index) => (
+          <CarousselSectionEntry key={index} onSlide={slideHandler}>
+            {element}
+          </CarousselSectionEntry>
+        ))}
       </CarousselSectionSlider>
     </CarousselSectionElement>
   );
 };
+
+interface CarousselSectionEntryProps {
+  children: SanityImageReference;
+  onSlide: (slide: number) => void;
+}
+
+const CarousselSectionEntry = (props: CarousselSectionEntryProps) => {
+  const imageProps = sanityImageProps(props.children, "responsive");
+
+  const [showArrow, setShowArrow] = useState(false);
+  const [arrowRight, setArrowRight] = useState(false);
+  const [arrowX, setArrowX] = useState(0);
+  const [arrowY, setArrowY] = useState(0);
+
+  const clickHandler =
+    (side: "left" | "right") => (event: MouseEvent<HTMLButtonElement>) => {
+      const entry = event.currentTarget.parentElement as HTMLDivElement;
+      const direction = side === "left" ? -1 : 1;
+      props.onSlide(entry.clientWidth * direction);
+      setShowArrow(false);
+    };
+
+  const animatingArrow = useRef(false);
+  const mouseMoveHandler = (event: MouseEvent<HTMLDivElement>) => {
+    if (!animatingArrow.current) {
+      animatingArrow.current = true;
+      const target = event.currentTarget;
+      window.requestAnimationFrame(() => {
+        const rectangle = target.getBoundingClientRect();
+        const x = event.pageX - rectangle.x - window.scrollX;
+        const y = event.pageY - rectangle.y - window.scrollY;
+        setArrowX(x);
+        setArrowY(y);
+        setArrowRight(x > rectangle.width / 2);
+        animatingArrow.current = false;
+      });
+    }
+  };
+
+  return (
+    <CarousselSectionEntryElement
+      onMouseEnter={() => setShowArrow(true)}
+      onMouseLeave={() => setShowArrow(false)}
+      onMouseMove={mouseMoveHandler}
+    >
+      {showArrow && <HoverArrow x={arrowX} y={arrowY} right={arrowRight} />}
+      <Image
+        {...imageProps}
+        sizes="(min-width: 1500px) 30vw, (min-width: 1000px) 40vw, (min-width: 768px) 50vw, 70vw"
+      />
+      <CarousselSectionButton side="left" onClick={clickHandler("left")}>
+        Previous
+      </CarousselSectionButton>
+      <CarousselSectionButton side="right" onClick={clickHandler("right")}>
+        Next
+      </CarousselSectionButton>
+    </CarousselSectionEntryElement>
+  );
+};
+
+const HOVER_ARROW_WIDTH = 65;
+const HOVER_ARROW_HEIGHT = 69;
+
+const HoverArrowElement = styled.svg`
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+`;
+
+interface HoverArrowProps {
+  x: number;
+  y: number;
+  right?: boolean;
+}
+
+const HoverArrow = (props: HoverArrowProps) => (
+  <HoverArrowElement
+    width={HOVER_ARROW_WIDTH}
+    height={HOVER_ARROW_HEIGHT}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{
+      transform: `translate(
+      ${props.x - HOVER_ARROW_WIDTH / 2}px,
+      ${props.y - HOVER_ARROW_HEIGHT / 2}px
+    )
+    scaleX(${props.right ? 1 : -1})`,
+    }}
+  >
+    <path
+      d="M-1.46433e-06 34.5L63 34.5M63 34.5L29.293 68M63 34.5L29.293 0.999999"
+      stroke="var(--highlight)"
+      strokeWidth="2"
+    />
+  </HoverArrowElement>
+);
