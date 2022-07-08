@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import styled from "styled-components";
 import { SanityImageReference } from "../../sanity-client/config";
@@ -30,12 +31,12 @@ const IntroSectionText = styled.div`
   }
 `;
 
-const IntroSectionImage = styled.div`
+const IntroSectionImage = styled(motion.div)`
   position: relative;
   width: 100%;
 `;
 
-const IntroSectionDetails = styled.div`
+const IntroSectionDetails = styled(motion.div)`
   color: #4f4f4f;
   display: grid;
   gap: 5px;
@@ -46,11 +47,23 @@ interface IntroSectionProps {
   category: string;
 }
 
+const motionVariants = {
+  shown: { opacity: 1, translateY: 0 },
+  hidden: { opacity: 0, translateY: -50 },
+};
+
+const motionProps = {
+  variants: motionVariants,
+  initial: "hidden",
+  whileInView: "shown",
+  viewport: { once: true },
+};
+
 export const IntroSection = (props: IntroSectionProps) => {
   const imageProps = sanityImageProps(props.children.image, "responsive");
   return (
     <IntroSectionElement>
-      <IntroSectionImage>
+      <IntroSectionImage {...motionProps} transition={{ delay: 0.5 }}>
         <Image
           {...imageProps}
           sizes="(min-width: 768px) 50vw, 100vw"
@@ -58,9 +71,13 @@ export const IntroSection = (props: IntroSectionProps) => {
         ></Image>
       </IntroSectionImage>
       <IntroSectionText>
-        <h1>{props.children.title}</h1>
-        <div>{props.category}</div>
-        <IntroSectionDetails>
+        <motion.h1 {...motionProps} transition={{ delay: 0.75 }}>
+          {props.children.title}
+        </motion.h1>
+        <motion.div {...motionProps} transition={{ delay: 1 }}>
+          {props.category}
+        </motion.div>
+        <IntroSectionDetails {...motionProps} transition={{ delay: 1.25 }}>
           <TextRenderer>{props.children.content}</TextRenderer>
         </IntroSectionDetails>
       </IntroSectionText>
