@@ -71,6 +71,7 @@ const ShowcaseThumbnail = (props: ShowcaseThumbnailProps) => {
         shown: { opacity: 1, translateY: 0 },
         hidden: { opacity: 0, translateY: -50 },
       }}
+      layout
     >
       <Link href={`/works/${showcase.slug}`} passHref>
         <A initial="hidden" whileHover="visible">
@@ -113,7 +114,7 @@ export interface ShowcaseListProps {
 }
 
 export const ShowcaseList = (props: ShowcaseListProps) => (
-  <UL initial="hidden" animate="shown" transition={{ staggerChildren: 0.25 }}>
+  <UL initial="hidden" animate="shown" transition={{ staggerChildren: 0.2 }}>
     {props.children.map((showcase) => (
       <ShowcaseThumbnail key={showcase._id}>{showcase}</ShowcaseThumbnail>
     ))}
