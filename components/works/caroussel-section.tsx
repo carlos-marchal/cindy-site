@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { MouseEvent, useRef, useState } from "react";
 import styled from "styled-components";
@@ -18,7 +19,7 @@ const CarousselSectionElement = styled.section`
   }
 `;
 
-const CarousselSectionIntro = styled.div`
+const CarousselSectionIntro = styled(motion.div)`
   text-align: center;
   display: grid;
   place-content: center;
@@ -29,7 +30,7 @@ const CarousselSectionIntro = styled.div`
   }
 `;
 
-const CarousselSectionSlider = styled.div`
+const CarousselSectionSlider = styled(motion.div)`
   display: grid;
   margin: var(--lateral-margin);
   margin-right: 0;
@@ -57,7 +58,7 @@ const CarousselSectionSlider = styled.div`
   }
 `;
 
-const CarousselSectionEntryElement = styled.div`
+const CarousselSectionEntryElement = styled(motion.div)`
   position: relative;
 `;
 
@@ -70,6 +71,11 @@ const CarousselSectionButton = styled.button<{ side: "left" | "right" }>`
   color: transparent;
   cursor: none;
 `;
+
+const motionVariants = {
+  shown: { opacity: 1, translateY: 0 },
+  hidden: { opacity: 0, translateY: -50 },
+};
 
 export interface CarousselSectionProps {
   children: CarousselSectionData;
@@ -87,11 +93,26 @@ export const CarousselSection = (props: CarousselSectionProps) => {
   return (
     <CarousselSectionElement>
       {props.children.intro === undefined ? null : (
-        <CarousselSectionIntro>
+        <CarousselSectionIntro
+          variants={motionVariants}
+          initial="hidden"
+          whileInView="shown"
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+        >
           <TextRenderer>{props.children.intro}</TextRenderer>
         </CarousselSectionIntro>
       )}
-      <CarousselSectionSlider ref={carousselRef}>
+      <CarousselSectionSlider
+        ref={carousselRef}
+        initial="hidden"
+        whileInView="shown"
+        viewport={{ once: true }}
+        transition={{
+          delayChildren: props.children.intro === undefined ? 0.5 : 0.75,
+          staggerChildren: 0.25,
+        }}
+      >
         {props.children.content.map((element, index) => (
           <CarousselSectionEntry key={index} onSlide={slideHandler}>
             {element}
@@ -145,6 +166,7 @@ const CarousselSectionEntry = (props: CarousselSectionEntryProps) => {
       onMouseEnter={() => setShowArrow(true)}
       onMouseLeave={() => setShowArrow(false)}
       onMouseMove={mouseMoveHandler}
+      variants={motionVariants}
     >
       {showArrow && <HoverArrow x={arrowX} y={arrowY} right={arrowRight} />}
       <Image
