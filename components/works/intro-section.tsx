@@ -12,14 +12,11 @@ export interface IntroSectionData {
 }
 
 const IntroSectionElement = styled.section`
-  display: grid;
-  grid-template-rows: 100vw auto;
   @media (min-width: 768px) {
-    min-height: 95vh;
-    grid-template-rows: auto;
+    display: grid;
     grid-template-columns: 50% 50%;
-    padding: 5vh 0 10vh 0;
   }
+  margin: var(--lateral-margin) 0;
 `;
 
 const IntroSectionText = styled.div`
@@ -50,13 +47,12 @@ interface IntroSectionProps {
 }
 
 export const IntroSection = (props: IntroSectionProps) => {
-  const imageProps = sanityImageProps(props.children.image, "fill");
+  const imageProps = sanityImageProps(props.children.image, "responsive");
   return (
     <IntroSectionElement>
       <IntroSectionImage>
         <Image
           {...imageProps}
-          objectFit="cover"
           sizes="(min-width: 768px) 50vw, 100vw"
           priority
         ></Image>
