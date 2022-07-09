@@ -86,6 +86,7 @@ const IndexPage: NextPage<IndexProps> = (props) => {
 const SVG = styled(motion.svg)`
   position: fixed;
   z-index: -10;
+  transform: translate(300px, 300px);
 `;
 
 const Circle = () => {
