@@ -126,7 +126,7 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
         description={data.description}
         image={data.cover}
       />
-      <Header navItems={settings.navigation} />
+      <Header preview={props.preview} navItems={settings.navigation} />
       <Main>
         {data.sections.map((section, index) => {
           switch (section._type) {

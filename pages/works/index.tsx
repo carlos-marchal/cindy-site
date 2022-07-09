@@ -83,7 +83,7 @@ const WorksPage: NextPage<WorksProps> = (props) => {
         description={settings.description}
         image={settings.preview}
       />
-      <Header navItems={settings.navigation} />
+      <Header preview={props.preview} navItems={settings.navigation} />
       <Main>
         <CategoryFilter>
           <Label checked={selected === undefined}>

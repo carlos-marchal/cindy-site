@@ -150,7 +150,7 @@ const AboutPage: NextPage<AboutProps> = (props) => {
       behavior: "smooth",
     });
   };
-  
+
   return (
     <Root>
       <HeadData
@@ -159,7 +159,7 @@ const AboutPage: NextPage<AboutProps> = (props) => {
         image={settings.preview}
       />
       <ScrollContainer>
-        <Header navItems={settings.navigation} />
+        <Header preview={props.preview}  navItems={settings.navigation} />
         <Main>
           <Portrait style={mobile ? undefined : { left, translateX }}>
             <Image {...imageProps} sizes="(min-width: 768px) 30vw, 50vw" />

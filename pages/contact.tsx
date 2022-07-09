@@ -51,7 +51,7 @@ const ContactPage: NextPage<ContactProps> = (props) => {
         description={settings.description}
         image={settings.preview}
       />
-      <Header navItems={settings.navigation} />
+      <Header preview={props.preview}  navItems={settings.navigation} />
       <Main>
         <TextRenderer>{data.content}</TextRenderer>
       </Main>

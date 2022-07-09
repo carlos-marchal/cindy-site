@@ -71,7 +71,7 @@ const IndexPage: NextPage<IndexProps> = (props) => {
         image={settings.preview}
       />
       <Circle />
-      <Header navItems={settings.navigation} />
+      <Header preview={props.preview} navItems={settings.navigation} />
       <Main>
         {data.main_text}
         <Arrow direction="down" href="/works">
