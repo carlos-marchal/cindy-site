@@ -24,6 +24,11 @@ const Root = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  a:hover,
+  button:hover {
+    color: var(--white);
+  }
 `;
 
 const Main = styled.main`
