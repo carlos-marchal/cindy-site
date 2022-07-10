@@ -51,6 +51,7 @@ const ScrollContainer = styled.div`
 
 const Main = styled.main`
   margin: 0 var(--lateral-margin);
+  overflow-y: hidden;
   @media (min-width: 768px) {
     position: relative;
     height: 100%;
