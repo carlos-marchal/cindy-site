@@ -30,6 +30,7 @@ const HamburgerButton = styled.button`
 export interface HeaderProps {
   navItems: SiteSettingsNavigation[];
   preview?: boolean;
+  light?: boolean;
 }
 
 export const Header = (props: HeaderProps) => {
@@ -58,6 +59,7 @@ export const Header = (props: HeaderProps) => {
         onClose={() => setShowNav(false)}
         items={props.navItems}
         appearAnchor={navButtonRef}
+        light={props.light}
       />
     </HeaderElement>
   );

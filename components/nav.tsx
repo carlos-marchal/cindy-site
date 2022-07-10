@@ -4,15 +4,15 @@ import { RefObject, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { SiteSettingsNavigation } from "../sanity-client/config";
 
-const NavElement = styled(motion.nav)`
+const NavElement = styled(motion.nav)<{ light?: boolean }>`
   position: fixed;
   z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--black);
-  color: var(--white);
+  background: ${({ light }) => (light ? "var(--white)" : "var(--black)")};
+  color: ${({ light }) => (light ? "var(--black)" : "var(--white)")};
   font: var(--header-font);
   display: grid;
   place-items: center;
@@ -57,6 +57,7 @@ export interface NavProps {
   onClose: () => void;
   items: SiteSettingsNavigation[];
   appearAnchor: HTMLElement | null;
+  light?: boolean;
 }
 
 interface ClipCircleStyles {
@@ -79,7 +80,7 @@ export const Nav = (props: NavProps) => {
       };
     }
   }, [props.appearAnchor]);
-  
+
   return (
     <AnimatePresence>
       {props.show && (
@@ -97,6 +98,7 @@ export const Nav = (props: NavProps) => {
           exit="closed"
           custom={clipCircle}
           transition={{ bounce: 0 }}
+          light={props.light}
         >
           <CloseButton onClick={() => props.onClose()}>
             <CloseIcon />

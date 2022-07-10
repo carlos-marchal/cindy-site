@@ -159,7 +159,7 @@ const AboutPage: NextPage<AboutProps> = (props) => {
         image={settings.preview}
       />
       <ScrollContainer>
-        <Header preview={props.preview}  navItems={settings.navigation} />
+        <Header preview={props.preview} navItems={settings.navigation} light />
         <Main>
           <Portrait style={mobile ? undefined : { left, translateX }}>
             <Image {...imageProps} sizes="(min-width: 768px) 30vw, 50vw" />
