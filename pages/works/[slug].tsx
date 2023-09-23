@@ -62,7 +62,7 @@ type ShowcaseProps = SanityProps<[WorksData]>;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return await getSanityStaticPaths(
-    groq`*[_type == "showcase"]{"slug": slug.current}`,
+    groq`*[_type == "showcase" && !(_id in path("drafts.**"))]{"slug": slug.current}`,
     (entry) => `/works/${entry.slug}`
   );
 };
