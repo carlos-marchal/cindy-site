@@ -14,7 +14,7 @@ This is a personal portfolio site for Cindy Adames. The website is built with Ne
 
 ## Developing
 
-There are two components to the site. The first is the Next.js project itself, at the root of the repository, which runs the main site. Packages at this level are managed using pnpm. To install them, run `pnpm install` and then to start the development version of the site run `pnpm dev`. The following environment variables need to be set:
+There are two components to the site. The first is the Next.js project itself, at the root of the repository, which runs the main site. Packages at this level are managed using npm. To install them, run `npm install` and then to start the development version of the site run `npm run dev`. The following environment variables need to be set:
 
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`: The ID of the Sanity project to fetch data from
 - `NEXT_PUBLIC_SANITY_DATASET`: The name of the Sanity dataset to fetch data from
