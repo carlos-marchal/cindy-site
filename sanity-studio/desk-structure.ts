@@ -1,7 +1,6 @@
 import type { StructureResolver } from 'sanity/structure'
 import { singletons } from './singletons'
 
-// In Sanity v3+, the structure builder (S) is passed as a parameter
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')

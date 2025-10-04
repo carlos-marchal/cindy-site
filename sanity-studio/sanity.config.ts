@@ -4,7 +4,6 @@ import { visionTool } from '@sanity/vision'
 import { dashboardTool } from '@sanity/dashboard'
 import { netlifyWidget } from 'sanity-plugin-dashboard-widget-netlify'
 
-// Import schemas
 import siteSetting from './schemas/site-settings'
 import homePage from './schemas/home'
 import worksPage from './schemas/works'
@@ -13,10 +12,8 @@ import aboutPage from './schemas/about'
 import category from './schemas/category'
 import showcase from './schemas/showcase'
 
-// Import structure configuration
 import { structure } from './desk-structure'
 
-// Import singletons definition
 import { singletons } from './singletons'
 
 const secret = process.env.SANITY_STUDIO_PREVIEW_SECRET
@@ -31,8 +28,6 @@ export default defineConfig({
   projectId: 'oqid2l47',
   dataset: 'production',
 
-  // Lock API version to prevent breaking changes
-  // Using current date per Sanity best practices
   apiVersion: '2024-10-02',
 
   plugins: [
@@ -55,7 +50,6 @@ export default defineConfig({
         }),
       ],
     }),
-    // Only include vision tool in development
     ...(isDev ? [visionTool()] : []),
   ],
 
@@ -72,9 +66,7 @@ export default defineConfig({
   },
 
   document: {
-    // Migrate singleton document actions from __experimental_actions
     actions: (prev, { schemaType }) => {
-      // For singleton documents, only allow update and publish
       if (singletons.has(schemaType)) {
         return prev.filter(({ action }) =>
           ['update', 'publish'].includes(action)
@@ -83,7 +75,6 @@ export default defineConfig({
       return prev
     },
 
-    // Prevent creating new singleton documents
     newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === 'global') {
         return prev.filter(
@@ -93,7 +84,6 @@ export default defineConfig({
       return prev
     },
 
-    // Migrate production URL resolver
     productionUrl: async (prev, context) => {
       const { document } = context
       const baseUrl =
