@@ -12,6 +12,7 @@
     "@mux/mux-player-react": "^3.6.1",
     "@portabletext/react": "^4.0.3",
     "@sanity/image-url": "^1.2.0",
+    "@vercel/speed-insights": "^1.2.0",
     "framer-motion": "^12.23.22",
     "next": "15.5.4",
     "next-sanity": "^11.4.2",
