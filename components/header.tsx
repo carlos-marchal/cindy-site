@@ -1,5 +1,7 @@
+'use client'
+
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styled from "styled-components";
 import { SiteSettingsNavigation } from "../sanity-client/config";
@@ -34,7 +36,7 @@ export interface HeaderProps {
 }
 
 export const Header = (props: HeaderProps) => {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
   const [showNav, setShowNav] = useState(false);
   const [navButtonRef, setNavButtonRef] = useState<HTMLButtonElement | null>(
     null
@@ -45,7 +47,7 @@ export const Header = (props: HeaderProps) => {
         <Link href="/">Cindy Adames</Link>
       </div>
       {props.preview && (
-        <Link href={`/api/exit-preview?${pathname.slice(1)}`}>
+        <Link href={`/api/exit-draft?path=${pathname}`}>
           Exit Preview Mode
         </Link>
       )}

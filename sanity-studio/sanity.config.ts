@@ -96,7 +96,7 @@ export default defineConfig({
       }
 
       const previewUrl = new URL(baseUrl)
-      previewUrl.pathname = `/api/preview`
+      previewUrl.pathname = `/api/draft`
       previewUrl.searchParams.append(`secret`, secret)
 
       let path = ''
