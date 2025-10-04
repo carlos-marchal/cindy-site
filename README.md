@@ -27,9 +27,7 @@ The second component is Sanity Studio, inside the `sanity-studio` directory. Pac
 - `SANITY_STUDIO_API_DATASET`: The name of the Sanity dataset to edit data from
 - `SANITY_STUDIO_PREVIEW_SECRET`: An arbitrary secret to allow enabling preview mode (must match the one set in Next.js)
 - `SANITY_STUDIO_PRODUCTION_URL`: The URL of the main site when in production
-- `SANITY_STUDIO_NETLIFY_SITE_ID`: The Netlify ID of the main site
-- `SANITY_STUDIO_NETLIFY_WEBHOOK_ID`: The ID of a the Netlify webhook to trigger a rebuild
 
 ## Building and deploying
 
-The site is fully built using continuous integration. The main site is deployed on Netlify using the automatic configuration of its Next.js plugin. The Sanity editor is deployed to Sanity's cloud using a custom Github action, only when changes to files inside the `sanity-studio` directory are detected.
+The site is fully built using continuous integration. The main site is deployed on Vercel. The Sanity editor is deployed to Sanity's cloud using a custom Github action, only when changes to files inside the `sanity-studio` directory are detected.

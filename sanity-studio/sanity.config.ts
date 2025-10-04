@@ -1,8 +1,6 @@
 import { defineConfig, isDev } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
-import { dashboardTool } from '@sanity/dashboard'
-import { netlifyWidget } from 'sanity-plugin-dashboard-widget-netlify'
 import { muxInput } from 'sanity-plugin-mux-input'
 
 import siteSetting from './schemas/site-settings'
@@ -34,22 +32,6 @@ export default defineConfig({
   plugins: [
     structureTool({
       structure,
-    }),
-    dashboardTool({
-      widgets: [
-        netlifyWidget({
-          title: 'Deploy to Netlify',
-          sites: [
-            {
-              title: 'Website',
-              apiId: process.env.SANITY_STUDIO_NETLIFY_SITE_ID,
-              buildHookId: process.env.SANITY_STUDIO_NETLIFY_WEBHOOK_ID,
-              url: process.env.SANITY_STUDIO_PRODUCTION_URL,
-              name: 'Website',
-            },
-          ],
-        }),
-      ],
     }),
     muxInput(),
     ...(isDev ? [visionTool()] : []),
