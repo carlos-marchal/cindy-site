@@ -37,7 +37,7 @@ function wrapArrow(props: ArrowProps, content: React.ReactNode) {
     return <Button onClick={props.onClick}>{content}</Button>;
   }
   return (
-    <Link href={props.href} passHref>
+    <Link href={props.href} passHref legacyBehavior>
       <Button as="a">{content}</Button>
     </Link>
   );

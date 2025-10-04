@@ -42,12 +42,12 @@ export const Header = (props: HeaderProps) => {
   return (
     <HeaderElement>
       <div>
-        <Link href="/">
+        <Link href="/" passHref legacyBehavior>
           <a>Cindy Adames</a>
         </Link>
       </div>
       {props.preview && (
-        <Link passHref href={`/api/exit-preview?${pathname.slice(1)}`}>
+        <Link href={`/api/exit-preview?${pathname.slice(1)}`} passHref legacyBehavior>
           <PreviewControl>Exit Preview Mode</PreviewControl>
         </Link>
       )}

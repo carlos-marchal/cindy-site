@@ -1,20 +1,23 @@
-import { ClientConfig, groq, ProjectConfig } from "next-sanity";
+import { ClientConfig, groq } from "next-sanity";
 import createImageUrlBuilder from "@sanity/image-url";
 
 if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID === undefined) {
   throw new Error("Env variable NEXT_PUBLIC_SANITY_PROJECT_ID needs to be set");
 }
 
-export const urlFor = (source: SanityImageReference) =>
-  createImageUrlBuilder(sanityConfig).image(source);
-
-export const sanityConfig: ClientConfig & ProjectConfig = {
+export const sanityConfig: ClientConfig = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   apiVersion: "2022-06-24",
   useCdn: process.env.NODE_ENV === "production",
   token: process.env.SANITY_API_TOKEN,
 };
+
+export const urlFor = (source: SanityImageReference) =>
+  createImageUrlBuilder({
+    projectId: sanityConfig.projectId!,
+    dataset: sanityConfig.dataset!,
+  }).image(source);
 
 export interface SanityProps<T extends unknown[]> {
   queries: string[];

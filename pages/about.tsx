@@ -1,4 +1,4 @@
-import { motion, useTransform, useViewportScroll } from "framer-motion";
+import { motion, useTransform, useScroll } from "framer-motion";
 import type { GetStaticProps, NextPage } from "next";
 import { groq } from "next-sanity";
 import Image from "next/image";
@@ -118,13 +118,8 @@ function useIsMobile(): boolean {
     const listener = (event: MediaQueryListEvent) => {
       setMobile(!event.matches);
     };
-    if ("addEventListener" in query && "removeEventListener" in query) {
-      query.addEventListener("change", listener);
-      return () => query.removeEventListener("change", listener);
-    } else {
-      query.addListener(listener);
-      return () => query.removeListener(listener);
-    }
+    query.addEventListener("change", listener);
+    return () => query.removeEventListener("change", listener);
   }, []);
   return mobile;
 }
@@ -133,7 +128,7 @@ const AboutPage: NextPage<AboutProps> = (props) => {
   const [settings, data] = useSanityData(props);
   const imageProps = sanityImageProps(data.portrait, "responsive");
 
-  const { scrollYProgress: y } = useViewportScroll();
+  const { scrollYProgress: y } = useScroll();
   const translateY = useTransform(y, (y) => `-${Math.max(y - 0.5, 0) * 200}%`);
   const top = useTransform(y, (y) => `${Math.max(y - 0.5, 0) * 200}%`);
   const translateX = useTransform(y, (y) => `-${Math.min(y, 0.5) * 200}%`);

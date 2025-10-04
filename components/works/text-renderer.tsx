@@ -29,7 +29,7 @@ export const TextRenderer = (props: TextRendererProps) => (
               {props.children}
             </a>
           ) : (
-            <Link href={props.value.href}>
+            <Link href={props.value.href} passHref legacyBehavior>
               <a>{props.children}</a>
             </Link>
           ),
