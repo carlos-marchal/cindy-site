@@ -22,10 +22,10 @@ export const urlFor = (source: SanityImageReference) =>
 export interface SanityProps<T extends unknown[]> {
   queries: string[];
   data: T;
-  preview: boolean;
+  draftMode: boolean;
 }
 
-export function getSanityData<T>(data: unknown, preview: boolean): T {
+export function getSanityData<T>(data: unknown, draftMode: boolean): T {
   if (!Array.isArray(data)) {
     return data as T;
   }
@@ -34,7 +34,7 @@ export function getSanityData<T>(data: unknown, preview: boolean): T {
     return data[0];
   }
 
-  if (preview) {
+  if (draftMode) {
     return data.find((item) => item._id.startsWith(`drafts.`)) || data[0];
   }
 

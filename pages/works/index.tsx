@@ -20,16 +20,16 @@ interface WorksData {
   showcases: ShowcaseThumbnailData[];
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
+export const getStaticProps: GetStaticProps = async ({ draftMode = false }) => {
   return getSanityStaticProps(
     [
-      groq`*[_id == "works"]{ 
+      groq`*[_id == "works"]{
         title,
         category_filter[]->{ _id, name },
         showcases[]->{ _id, category->{ _id, name }, cover, "slug": slug.current, title }
       }`,
     ],
-    preview
+    draftMode
   );
 };
 
@@ -83,7 +83,7 @@ const WorksPage: NextPage<WorksProps> = (props) => {
         description={settings.description}
         image={settings.preview}
       />
-      <Header preview={props.preview} navItems={settings.navigation} />
+      <Header preview={props.draftMode} navItems={settings.navigation} />
       <Main>
         <CategoryFilter>
           <Label checked={selected === undefined}>

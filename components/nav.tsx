@@ -106,8 +106,8 @@ export const Nav = (props: NavProps) => {
           <UL>
             {props.items.map((item, index) => (
               <li key={index}>
-                <Link href={item.path} passHref legacyBehavior>
-                  <a onClick={() => props.onClose()}>{item.name}</a>
+                <Link href={item.path} onClick={() => props.onClose()}>
+                  {item.name}
                 </Link>
               </li>
             ))}

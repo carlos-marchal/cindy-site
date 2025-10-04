@@ -69,23 +69,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({
   params,
-  preview = false,
+  draftMode = false,
 }) => {
   const { slug } = params as Record<string, string>;
   const props = await getSanityStaticProps(
     [
-      groq`*[_type == "showcase" && slug.current == "${slug}"]{ 
+      groq`*[_type == "showcase" && slug.current == "${slug}"]{
         _id, title, description, sections, cover,
         "slug": slug.current,
         "category": category->name,
-        "related": related[]->{ 
+        "related": related[]->{
           _id, title, cover,
           category->{ _id, name },
           "slug": slug.current,
         }
       }`,
     ],
-    preview
+    draftMode
   );
   return props;
 };
@@ -126,7 +126,7 @@ const ShowcasePage: NextPage<ShowcaseProps> = (props) => {
         description={data.description}
         image={data.cover}
       />
-      <Header preview={props.preview} navItems={settings.navigation} />
+      <Header preview={props.draftMode} navItems={settings.navigation} />
       <Main>
         {data.sections.map((section, index) => {
           switch (section._type) {

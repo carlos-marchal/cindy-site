@@ -16,8 +16,8 @@ interface IndexData {
   footer: string;
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  return getSanityStaticProps([groq`*[_id == "home"]`], preview);
+export const getStaticProps: GetStaticProps = async ({ draftMode = false }) => {
+  return getSanityStaticProps([groq`*[_id == "home"]`], draftMode);
 };
 
 const Root = styled.div`
@@ -76,7 +76,7 @@ const IndexPage: NextPage<IndexProps> = (props) => {
         image={settings.preview}
       />
       <Circle />
-      <Header preview={props.preview} navItems={settings.navigation} />
+      <Header preview={props.draftMode} navItems={settings.navigation} />
       <Main>
         {data.main_text}
         <Arrow direction="down" href="/works">

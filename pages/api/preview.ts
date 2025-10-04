@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 
-export const preview: NextApiHandler = (request, response) => {
+export const draft: NextApiHandler = (request, response) => {
   if (!request?.query?.secret) {
     return response.status(401).json({ message: "No secret token" });
   }
@@ -11,9 +11,9 @@ export const preview: NextApiHandler = (request, response) => {
     return response.status(400).json({ message: "No path" });
   }
 
-  response.setPreviewData({});
+  response.setDraftMode({ enable: true });
   response.writeHead(307, { Location: `/${request.query.path}` });
   return response.end();
 };
 
-export default preview;
+export default draft;

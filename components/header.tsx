@@ -42,13 +42,11 @@ export const Header = (props: HeaderProps) => {
   return (
     <HeaderElement>
       <div>
-        <Link href="/" passHref legacyBehavior>
-          <a>Cindy Adames</a>
-        </Link>
+        <Link href="/">Cindy Adames</Link>
       </div>
       {props.preview && (
-        <Link href={`/api/exit-preview?${pathname.slice(1)}`} passHref legacyBehavior>
-          <PreviewControl>Exit Preview Mode</PreviewControl>
+        <Link href={`/api/exit-preview?${pathname.slice(1)}`}>
+          Exit Preview Mode
         </Link>
       )}
       <HamburgerButton ref={setNavButtonRef} onClick={() => setShowNav(true)}>
@@ -73,5 +71,3 @@ const HamburgerIcon = () => (
     <rect y="19" width="25" height="3" rx="0.5" fill="currentColor" />
   </svg>
 );
-
-const PreviewControl = styled.a``;

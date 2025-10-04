@@ -17,8 +17,8 @@ interface ContactData {
   content: PortableTextData;
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  return getSanityStaticProps([groq`*[_id == "contact"]`], preview);
+export const getStaticProps: GetStaticProps = async ({ draftMode = false }) => {
+  return getSanityStaticProps([groq`*[_id == "contact"]`], draftMode);
 };
 
 const Root = styled.div`
@@ -51,7 +51,7 @@ const ContactPage: NextPage<ContactProps> = (props) => {
         description={settings.description}
         image={settings.preview}
       />
-      <Header preview={props.preview} navItems={settings.navigation} light />
+      <Header preview={props.draftMode} navItems={settings.navigation} light />
       <Main>
         <TextRenderer>{data.content}</TextRenderer>
       </Main>

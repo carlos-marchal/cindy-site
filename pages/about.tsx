@@ -26,8 +26,8 @@ interface AboutChronologyEntry {
   content: PortableTextData;
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  return getSanityStaticProps([groq`*[_id == "about"]`], preview);
+export const getStaticProps: GetStaticProps = async ({ draftMode = false }) => {
+  return getSanityStaticProps([groq`*[_id == "about"]`], draftMode);
 };
 
 const Root = styled.div`
@@ -155,7 +155,7 @@ const AboutPage: NextPage<AboutProps> = (props) => {
         image={settings.preview}
       />
       <ScrollContainer>
-        <Header preview={props.preview} navItems={settings.navigation} light />
+        <Header preview={props.draftMode} navItems={settings.navigation} light />
         <Main>
           <Portrait style={mobile ? undefined : { left, translateX }}>
             <Image {...imageProps} sizes="(min-width: 768px) 30vw, 50vw" />
