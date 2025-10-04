@@ -1,14 +1,13 @@
 'use client'
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import styled from "styled-components";
-import { SanityImageReference } from "../../sanity-client/config";
-import { sanityImageProps } from "../../sanity-client/sanity";
+import { SanityImageReference, SanityMuxVideoReference } from "../../sanity-client/config";
+import { MediaRenderer } from "../media-renderer";
 
 export interface GallerySectionData {
   _type: "gallery";
-  content: SanityImageReference[];
+  content: (SanityImageReference | SanityMuxVideoReference)[];
 }
 
 const GallerySectionElement = styled(motion.section)`
@@ -85,11 +84,11 @@ export const GallerySection = (props: GallerySectionProps) => {
       transition={{ delayChildren: 0.5, staggerChildren: 0.25 }}
     >
       {props.children.content.map((element, index) => {
-        const imageProps = sanityImageProps(element, "responsive");
         return (
           <GalleryImage key={index} variants={motionVariants}>
-            <Image
-              {...imageProps}
+            <MediaRenderer
+              media={element}
+              layout="responsive"
               sizes="(min-width: 1500px) 25vw, (min-width: 1000px) 33vw, (min-width: 768px) 50vw, 100vw"
             />
           </GalleryImage>

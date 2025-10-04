@@ -7,14 +7,23 @@ import {
   IntroSectionData,
 } from '@/components/works/intro-section'
 import {
+  IntroVideoSectionData,
+} from '@/components/works/intro-video-section'
+import {
   TextSectionData,
 } from '@/components/works/text-section'
 import {
   HighlightSectionData,
 } from '@/components/works/highlight-section'
 import {
+  HighlightVideoSectionData,
+} from '@/components/works/highlight-video-section'
+import {
   ImageSectionData,
 } from '@/components/works/image-section'
+import {
+  ImageVideoSectionData,
+} from '@/components/works/image-video-section'
 import {
   GallerySectionData,
 } from '@/components/works/gallery-section'
@@ -41,9 +50,12 @@ interface WorksData {
 
 type SectionData =
   | IntroSectionData
+  | IntroVideoSectionData
   | TextSectionData
   | HighlightSectionData
+  | HighlightVideoSectionData
   | ImageSectionData
+  | ImageVideoSectionData
   | GallerySectionData
   | CarousselSectionData
 
@@ -57,9 +69,69 @@ export async function generateStaticParams() {
 async function getData(slug: string) {
   const data = await getStaticSanityData<[WorksData]>([
     groq`*[_type == "showcase" && slug.current == "${slug}"]{
-      _id, title, description, sections, cover,
+      _id, title, description, cover,
       "slug": slug.current,
       "category": category->name,
+      sections[]{
+        ...,
+        _type == "intro_video" => {
+          ...,
+          video {
+            asset-> {
+              playbackId,
+              assetId
+            }
+          }
+        },
+        _type == "highlight_video" => {
+          ...,
+          video {
+            asset-> {
+              playbackId,
+              assetId
+            }
+          }
+        },
+        _type == "picture_video" => {
+          ...,
+          video {
+            asset-> {
+              playbackId,
+              assetId
+            }
+          }
+        },
+        _type == "gallery" => {
+          ...,
+          content[]{
+            ...,
+            _type == "mux.video" => {
+              _type,
+              asset {
+                _ref,
+                _type,
+                "playbackId": @->playbackId,
+                "assetId": @->assetId
+              }
+            }
+          }
+        },
+        _type == "caroussel" => {
+          ...,
+          content[]{
+            ...,
+            _type == "mux.video" => {
+              _type,
+              asset {
+                _ref,
+                _type,
+                "playbackId": @->playbackId,
+                "assetId": @->assetId
+              }
+            }
+          }
+        }
+      },
       "related": related[]->{
         _id, title, cover,
         category->{ _id, name },

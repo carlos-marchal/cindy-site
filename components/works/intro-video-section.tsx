@@ -1,16 +1,15 @@
 'use client'
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import MuxPlayer from "@mux/mux-player-react";
 import styled from "styled-components";
-import { SanityImageReference } from "../../sanity-client/config";
-import { sanityImageProps } from "../../sanity-client/sanity";
+import { SanityMuxVideoReference } from "../../sanity-client/config";
 import { PortableTextData, TextRenderer } from "./text-renderer";
 
-export interface IntroSectionData {
-  _type: "intro";
+export interface IntroVideoSectionData {
+  _type: "intro_video";
   title: string;
-  image: SanityImageReference;
+  video: SanityMuxVideoReference;
   content: PortableTextData;
 }
 
@@ -33,7 +32,7 @@ const IntroSectionText = styled.div`
   }
 `;
 
-const IntroSectionImage = styled(motion.div)`
+const IntroSectionVideo = styled(motion.div)`
   position: relative;
   width: 100%;
 `;
@@ -44,8 +43,8 @@ const IntroSectionDetails = styled(motion.div)`
   gap: 5px;
 `;
 
-interface IntroSectionProps {
-  children: IntroSectionData;
+interface IntroVideoSectionProps {
+  children: IntroVideoSectionData;
   category: string;
 }
 
@@ -61,17 +60,23 @@ const motionProps = {
   viewport: { once: true },
 };
 
-export const IntroSection = (props: IntroSectionProps) => {
-  const imageProps = sanityImageProps(props.children.image, "responsive");
+export const IntroVideoSection = (props: IntroVideoSectionProps) => {
+  const playbackId = props.children.video.asset.playbackId;
   return (
     <IntroSectionElement>
-      <IntroSectionImage {...motionProps} transition={{ delay: 0.5 }}>
-        <Image
-          {...imageProps}
-          sizes="(min-width: 768px) 50vw, 100vw"
-          priority
-        />
-      </IntroSectionImage>
+      <IntroSectionVideo {...motionProps} transition={{ delay: 0.5 }}>
+        {playbackId && (
+          <MuxPlayer
+            playbackId={playbackId}
+            streamType="on-demand"
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{ width: "100%", aspectRatio: "16/9", "--controls": "none" } as React.CSSProperties}
+          />
+        )}
+      </IntroSectionVideo>
       <IntroSectionText>
         <motion.h1 {...motionProps} transition={{ delay: 0.75 }}>
           {props.children.title}

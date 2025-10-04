@@ -8,6 +8,10 @@ import {
   IntroSectionData,
 } from '@/components/works/intro-section'
 import {
+  IntroVideoSection,
+  IntroVideoSectionData,
+} from '@/components/works/intro-video-section'
+import {
   TextSection,
   TextSectionData,
 } from '@/components/works/text-section'
@@ -16,9 +20,17 @@ import {
   HighlightSectionData,
 } from '@/components/works/highlight-section'
 import {
+  HighlightVideoSection,
+  HighlightVideoSectionData,
+} from '@/components/works/highlight-video-section'
+import {
   ImageSection,
   ImageSectionData,
 } from '@/components/works/image-section'
+import {
+  ImageVideoSection,
+  ImageVideoSectionData,
+} from '@/components/works/image-video-section'
 import {
   GallerySection,
   GallerySectionData,
@@ -36,9 +48,12 @@ import {
 
 type SectionData =
   | IntroSectionData
+  | IntroVideoSectionData
   | TextSectionData
   | HighlightSectionData
+  | HighlightVideoSectionData
   | ImageSectionData
+  | ImageVideoSectionData
   | GallerySectionData
   | CarousselSectionData
 
@@ -92,12 +107,22 @@ export default function WorkClient(props: WorkClientProps) {
                   {section}
                 </IntroSection>
               )
+            case 'intro_video':
+              return (
+                <IntroVideoSection key={index} category={props.category}>
+                  {section}
+                </IntroVideoSection>
+              )
             case 'text_section':
               return <TextSection key={index}>{section}</TextSection>
             case 'highlight':
               return <HighlightSection key={index}>{section}</HighlightSection>
+            case 'highlight_video':
+              return <HighlightVideoSection key={index}>{section}</HighlightVideoSection>
             case 'picture':
               return <ImageSection key={index}>{section}</ImageSection>
+            case 'picture_video':
+              return <ImageVideoSection key={index}>{section}</ImageVideoSection>
             case 'gallery':
               return <GallerySection key={index}>{section}</GallerySection>
             case 'caroussel':

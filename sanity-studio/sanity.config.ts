@@ -3,6 +3,7 @@ import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { dashboardTool } from '@sanity/dashboard'
 import { netlifyWidget } from 'sanity-plugin-dashboard-widget-netlify'
+import { muxInput } from 'sanity-plugin-mux-input'
 
 import siteSetting from './schemas/site-settings'
 import homePage from './schemas/home'
@@ -50,6 +51,7 @@ export default defineConfig({
         }),
       ],
     }),
+    muxInput(),
     ...(isDev ? [visionTool()] : []),
   ],
 

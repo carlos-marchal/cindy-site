@@ -77,7 +77,36 @@ export default defineType({
           preview: {
             select: { title: 'title', media: 'image' },
             prepare: ({ title, media }) => ({
-              title: `Introduction: ${title}`,
+              title: `Introduction (Image): ${title}`,
+              media,
+            }),
+          },
+        }),
+        defineArrayMember({
+          type: 'object',
+          name: 'intro_video',
+          fields: [
+            defineField({
+              type: 'mux.video',
+              name: 'video',
+              title: 'Video',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              type: 'string',
+              name: 'title',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'content',
+              type: 'array',
+              of: textConfig,
+            }),
+          ],
+          preview: {
+            select: { title: 'title', media: 'video' },
+            prepare: ({ title, media }) => ({
+              title: `Introduction (Video): ${title}`,
               media,
             }),
           },
@@ -125,7 +154,31 @@ export default defineType({
           preview: {
             select: { content: 'content.0.children.0.text', media: 'image' },
             prepare: ({ content, media }) => ({
-              title: `Highlight: ${content}`,
+              title: `Highlight (Image): ${content}`,
+              media,
+            }),
+          },
+        }),
+        defineArrayMember({
+          type: 'object',
+          name: 'highlight_video',
+          fields: [
+            defineField({
+              type: 'mux.video',
+              name: 'video',
+              title: 'Video',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'content',
+              type: 'array',
+              of: textConfig,
+            }),
+          ],
+          preview: {
+            select: { content: 'content.0.children.0.text', media: 'video' },
+            prepare: ({ content, media }) => ({
+              title: `Highlight (Video): ${content}`,
               media,
             }),
           },
@@ -159,7 +212,32 @@ export default defineType({
           ],
           preview: {
             select: { media: 'image' },
-            prepare: ({ media }) => ({ title: `Picture`, media }),
+            prepare: ({ media }) => ({ title: `Picture (Image)`, media }),
+          },
+        }),
+        defineArrayMember({
+          type: 'object',
+          name: 'picture_video',
+          fields: [
+            defineField({
+              type: 'mux.video',
+              name: 'video',
+              title: 'Video',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              type: 'string',
+              name: 'mode',
+              options: {
+                list: ['full', 'left', 'right', 'poster'],
+                layout: 'radio',
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: { media: 'video' },
+            prepare: ({ media }) => ({ title: `Picture (Video)`, media }),
           },
         }),
         defineArrayMember({
@@ -174,7 +252,6 @@ export default defineType({
               of: [
                 {
                   type: 'image',
-                  name: 'image',
                   fields: [
                     {
                       name: 'caption',
@@ -183,7 +260,10 @@ export default defineType({
                       options: { isHighlighted: true },
                     },
                   ],
-                  validation: (Rule) => Rule.required(),
+                },
+                {
+                  type: 'mux.video',
+                  title: 'Video',
                 },
               ],
             }),
@@ -211,7 +291,6 @@ export default defineType({
               of: [
                 {
                   type: 'image',
-                  name: 'image',
                   fields: [
                     {
                       name: 'caption',
@@ -220,7 +299,10 @@ export default defineType({
                       options: { isHighlighted: true },
                     },
                   ],
-                  validation: (Rule) => Rule.required(),
+                },
+                {
+                  type: 'mux.video',
+                  title: 'Video',
                 },
               ],
             }),

@@ -74,10 +74,29 @@ export interface SanityImageReference {
   blurDataURL?: string;
 }
 
+export interface SanityMuxVideoReference {
+  _type: "mux.video";
+  asset: {
+    _ref: string;
+    _type: "reference";
+    playbackId?: string;
+    assetId?: string;
+  };
+}
+
 export function isSanityImageReference(
   data: any
 ): data is SanityImageReference {
   if (data._type !== "image") {
+    return false;
+  }
+  return data.asset?._type === "reference";
+}
+
+export function isSanityMuxVideoReference(
+  data: any
+): data is SanityMuxVideoReference {
+  if (data._type !== "mux.video") {
     return false;
   }
   return data.asset?._type === "reference";

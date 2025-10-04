@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mux/mux-player-react": "^3.6.1",
     "@portabletext/react": "^4.0.3",
     "@sanity/image-url": "^1.2.0",
     "framer-motion": "^12.23.22",
