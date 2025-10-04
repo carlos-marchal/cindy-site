@@ -13,7 +13,7 @@ import aboutPage from './schemas/about'
 import category from './schemas/category'
 import showcase from './schemas/showcase'
 
-// Import structure configuration (will be migrated)
+// Import structure configuration
 import { structure } from './desk-structure'
 
 // Import singletons definition
@@ -30,6 +30,10 @@ export default defineConfig({
 
   projectId: 'oqid2l47',
   dataset: 'production',
+
+  // Lock API version to prevent breaking changes
+  // Using current date per Sanity best practices
+  apiVersion: '2024-10-02',
 
   plugins: [
     structureTool({
