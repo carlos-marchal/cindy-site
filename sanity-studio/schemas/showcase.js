@@ -1,4 +1,4 @@
-import { textConfig } from "./text-config";
+import { textConfig } from "./text-config.jsx";
 
 export default {
   name: "showcase",

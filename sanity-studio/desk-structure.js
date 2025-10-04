@@ -1,7 +1,7 @@
-import S from "@sanity/desk-tool/structure-builder";
 import { singletons } from "./singletons";
 
-export default () =>
+// In Sanity v3, the structure builder (S) is passed as a parameter
+export const structure = (S) =>
   S.list()
     .title("Content")
     .items([
