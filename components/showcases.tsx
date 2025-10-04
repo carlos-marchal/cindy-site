@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,7 +45,7 @@ const Caption = styled(motion.div)`
   }
 `;
 
-const A = styled(motion.a)`
+const StyledLink = styled(Link)`
   position: absolute;
   top: 0;
   left: 0;
@@ -53,9 +55,19 @@ const A = styled(motion.a)`
   text-decoration: none;
   overflow-y: hidden;
   overflow-x: hidden;
-  :hover {
+  &:hover {
     color: inherit;
   }
+`;
+
+const LinkContent = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
 `;
 
 interface ShowcaseThumbnailProps {
@@ -73,12 +85,12 @@ const ShowcaseThumbnail = (props: ShowcaseThumbnailProps) => {
       }}
       layout
     >
-      <Link href={`/works/${showcase.slug}`} passHref>
-        <A initial="hidden" whileHover="visible">
+      <StyledLink href={`/works/${showcase.slug}`}>
+        <LinkContent initial="hidden" whileHover="visible">
           <Image
             {...imageProps}
             alt={showcase.title}
-            objectFit="cover"
+            style={{ objectFit: 'cover' }}
             sizes="(min-width: 1800px) 25vw, (min-width: 1400px) 33vw, (min-width: 1000px) 50vw, 100vw"
           />
           <Caption
@@ -90,8 +102,8 @@ const ShowcaseThumbnail = (props: ShowcaseThumbnailProps) => {
             <header>{props.children.title}</header>
             <div>{props.children.category.name}</div>
           </Caption>
-        </A>
-      </Link>
+        </LinkContent>
+      </StyledLink>
     </LI>
   );
 };

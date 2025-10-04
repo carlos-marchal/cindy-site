@@ -1,15 +1,16 @@
+'use client'
+
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { MouseEvent, useRef, useState } from "react";
 import styled from "styled-components";
-import { SanityImageReference } from "../../sanity-client/config";
-import { sanityImageProps } from "../../sanity-client/sanity";
+import { SanityImageReference, SanityMuxVideoReference } from "../../sanity-client/config";
+import { MediaRenderer } from "../media-renderer";
 import { PortableTextData, TextRenderer } from "./text-renderer";
 
 export interface CarousselSectionData {
   _type: "caroussel";
   intro?: PortableTextData;
-  content: SanityImageReference[];
+  content: (SanityImageReference | SanityMuxVideoReference)[];
 }
 
 const CarousselSectionElement = styled.section`
@@ -124,13 +125,11 @@ export const CarousselSection = (props: CarousselSectionProps) => {
 };
 
 interface CarousselSectionEntryProps {
-  children: SanityImageReference;
+  children: SanityImageReference | SanityMuxVideoReference;
   onSlide: (slide: number) => void;
 }
 
 const CarousselSectionEntry = (props: CarousselSectionEntryProps) => {
-  const imageProps = sanityImageProps(props.children, "responsive");
-
   const [showArrow, setShowArrow] = useState(false);
   const [arrowRight, setArrowRight] = useState(false);
   const [arrowX, setArrowX] = useState(0);
@@ -169,8 +168,9 @@ const CarousselSectionEntry = (props: CarousselSectionEntryProps) => {
       variants={motionVariants}
     >
       {showArrow && <HoverArrow x={arrowX} y={arrowY} right={arrowRight} />}
-      <Image
-        {...imageProps}
+      <MediaRenderer
+        media={props.children}
+        layout="responsive"
         sizes="(min-width: 1500px) 30vw, (min-width: 1000px) 40vw, (min-width: 768px) 50vw, 70vw"
       />
       <CarousselSectionButton side="left" onClick={clickHandler("left")}>

@@ -19,10 +19,6 @@ button {
   cursor: pointer;
 }
 
-#__next {
-  min-height: 100vh;
-}
-
 body {
   font: 16px "Neue Haas Grotesk Display", sans-serif;
   line-height: 28px;

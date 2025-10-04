@@ -1,3 +1,5 @@
+'use client'
+
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { RefObject, useEffect, useRef } from "react";
@@ -106,8 +108,8 @@ export const Nav = (props: NavProps) => {
           <UL>
             {props.items.map((item, index) => (
               <li key={index}>
-                <Link href={item.path}>
-                  <a onClick={() => props.onClose()}>{item.name}</a>
+                <Link href={item.path} onClick={() => props.onClose()}>
+                  {item.name}
                 </Link>
               </li>
             ))}

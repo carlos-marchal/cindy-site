@@ -1,6 +1,8 @@
 name: Deploy Sanity Studio
 on:
   push:
+    branches:
+      - main
     paths:
       - "sanity-studio/**"
   workflow_dispatch:
@@ -11,19 +13,17 @@ jobs:
       run:
         working-directory: sanity-studio
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "14"
+          node-version: "20"
           cache: "yarn"
           cache-dependency-path: sanity-studio/yarn.lock
-      - name: Installing Dependencies
-        run: npx -p @sanity/cli sanity install
-      - name: Publishing Studio
-        run: npx -p @sanity/cli sanity deploy
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Deploy Studio
+        run: yarn deploy --yes
         env:
-          SANITY_STUDIO_API_PROJECT_ID: ${{ secrets.SANITY_STUDIO_API_PROJECT_ID }}
-          SANITY_STUDIO_API_DATASET: ${{ secrets.SANITY_STUDIO_API_DATASET }}
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
           SANITY_STUDIO_PREVIEW_SECRET: ${{ secrets.SANITY_STUDIO_PREVIEW_SECRET }}
           SANITY_STUDIO_PRODUCTION_URL: ${{ secrets.SANITY_STUDIO_PRODUCTION_URL }}

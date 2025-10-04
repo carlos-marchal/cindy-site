@@ -16,7 +16,7 @@ const FooterElement = styled.footer`
   grid-auto-flow: column;
   grid-template-columns: 2fr 1fr;
 
-  ::after {
+  &::after {
     content: "";
     grid-row: 2;
     grid-column: 1 / 3;
@@ -29,7 +29,7 @@ const FooterElement = styled.footer`
     grid-auto-flow: row;
     grid-template-columns: 1fr;
 
-    ::after {
+    &::after {
       content: "";
       grid-row: 3;
       grid-column: 1 / 2;
@@ -62,12 +62,6 @@ const BackToTop = styled.div`
   @media (min-width: 768px) {
     order: -1;
     margin: 40px 0;
-
-    ::after {
-      content: "";
-      grid-row: 3;
-      grid-column: 1 / 2;
-    }
   }
 `;
 

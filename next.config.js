@@ -2,8 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   compiler: { styledComponents: true },
-  images: { domains: ["cdn.sanity.io"] },
-  i18n: { defaultLocale: "en", locales: ["en"] },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

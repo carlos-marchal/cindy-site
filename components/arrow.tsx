@@ -22,6 +22,10 @@ const Button = styled.button`
   display: block;
 `;
 
+const StyledLink = styled(Link)`
+  display: block;
+`;
+
 const SVG = styled.svg<{ direction: ArrowDirection }>`
   transform: rotate(
     ${({ direction }) => ({ down: 0, right: 90, up: 180 }[direction])}deg
@@ -36,11 +40,7 @@ function wrapArrow(props: ArrowProps, content: React.ReactNode) {
   if ("onClick" in props) {
     return <Button onClick={props.onClick}>{content}</Button>;
   }
-  return (
-    <Link href={props.href} passHref>
-      <Button as="a">{content}</Button>
-    </Link>
-  );
+  return <StyledLink href={props.href}>{content}</StyledLink>;
 }
 
 export const Arrow = (props: ArrowProps) =>

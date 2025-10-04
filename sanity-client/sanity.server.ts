@@ -18,8 +18,8 @@ const previewClient = createClient({
   useCdn: false,
 });
 
-const getClient = (usePreview: boolean) =>
-  usePreview ? previewClient : sanityClient;
+const getClient = (useDraftMode: boolean) =>
+  useDraftMode ? previewClient : sanityClient;
 
 export async function getSanityStaticPaths(
   query: string,
@@ -31,11 +31,11 @@ export async function getSanityStaticPaths(
 
 export async function getSanityStaticProps<T extends unknown[]>(
   queries: string[],
-  preview: boolean
+  draftMode: boolean
 ): Promise<GetStaticPropsResult<SanityProps<[SiteSettings, ...T]>>> {
   const responses = await Promise.all(
     [sanitySettingsQuery, ...queries].map((query) =>
-      getClient(preview).fetch(query)
+      getClient(draftMode).fetch(query)
     )
   );
   if (responses.every((response) => response === undefined)) {
@@ -43,12 +43,12 @@ export async function getSanityStaticProps<T extends unknown[]>(
   }
   const data = await Promise.all(
     responses.map(async (response) => {
-      const entry = getSanityData(response, preview);
+      const entry = getSanityData(response, draftMode);
       await loadSanityBlurredPlaceholders(entry);
       return entry;
     })
   );
-  return { props: { queries, data: data as [SiteSettings, ...T], preview } };
+  return { props: { queries, data: data as [SiteSettings, ...T], draftMode } };
 }
 
 async function loadSanityBlurredPlaceholders(

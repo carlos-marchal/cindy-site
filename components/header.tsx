@@ -1,5 +1,7 @@
+'use client'
+
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styled from "styled-components";
 import { SiteSettingsNavigation } from "../sanity-client/config";
@@ -34,7 +36,7 @@ export interface HeaderProps {
 }
 
 export const Header = (props: HeaderProps) => {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
   const [showNav, setShowNav] = useState(false);
   const [navButtonRef, setNavButtonRef] = useState<HTMLButtonElement | null>(
     null
@@ -42,13 +44,11 @@ export const Header = (props: HeaderProps) => {
   return (
     <HeaderElement>
       <div>
-        <Link href="/">
-          <a>Cindy Adames</a>
-        </Link>
+        <Link href="/">Cindy Adames</Link>
       </div>
       {props.preview && (
-        <Link passHref href={`/api/exit-preview?${pathname.slice(1)}`}>
-          <PreviewControl>Exit Preview Mode</PreviewControl>
+        <Link href={`/api/exit-draft?path=${pathname}`}>
+          Exit Preview Mode
         </Link>
       )}
       <HamburgerButton ref={setNavButtonRef} onClick={() => setShowNav(true)}>
@@ -73,5 +73,3 @@ const HamburgerIcon = () => (
     <rect y="19" width="25" height="3" rx="0.5" fill="currentColor" />
   </svg>
 );
-
-const PreviewControl = styled.a``;

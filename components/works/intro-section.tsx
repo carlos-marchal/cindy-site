@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 import styled from "styled-components";
@@ -68,7 +70,7 @@ export const IntroSection = (props: IntroSectionProps) => {
           {...imageProps}
           sizes="(min-width: 768px) 50vw, 100vw"
           priority
-        ></Image>
+        />
       </IntroSectionImage>
       <IntroSectionText>
         <motion.h1 {...motionProps} transition={{ delay: 0.75 }}>
