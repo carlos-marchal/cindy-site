@@ -34,6 +34,7 @@ export interface ImageVideoSectionProps {
 
 export const ImageVideoSection = (props: ImageVideoSectionProps) => {
   const playbackId = props.children.video.asset.playbackId;
+  const aspectRatio = props.children.video.asset.aspectRatio || "16/9";
   return (
     <ImageSectionElement
       mode={props.children.mode}
@@ -50,7 +51,7 @@ export const ImageVideoSection = (props: ImageVideoSectionProps) => {
           muted
           loop
           playsInline
-          style={{ width: "100%", aspectRatio: "16/9", "--controls": "none" } as React.CSSProperties}
+          style={{ width: "100%", aspectRatio: aspectRatio.replace(":", "/"), "--controls": "none" } as React.CSSProperties}
         />
       )}
     </ImageSectionElement>

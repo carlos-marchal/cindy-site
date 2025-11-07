@@ -79,7 +79,8 @@ async function getData(slug: string) {
           video {
             asset-> {
               playbackId,
-              assetId
+              assetId,
+              "aspectRatio": data.aspect_ratio
             }
           }
         },
@@ -88,7 +89,8 @@ async function getData(slug: string) {
           video {
             asset-> {
               playbackId,
-              assetId
+              assetId,
+              "aspectRatio": data.aspect_ratio
             }
           }
         },
@@ -97,7 +99,8 @@ async function getData(slug: string) {
           video {
             asset-> {
               playbackId,
-              assetId
+              assetId,
+              "aspectRatio": data.aspect_ratio
             }
           }
         },
@@ -111,7 +114,8 @@ async function getData(slug: string) {
                 _ref,
                 _type,
                 "playbackId": @->playbackId,
-                "assetId": @->assetId
+                "assetId": @->assetId,
+                "aspectRatio": @->data.aspect_ratio
               }
             }
           }
@@ -126,7 +130,8 @@ async function getData(slug: string) {
                 _ref,
                 _type,
                 "playbackId": @->playbackId,
-                "assetId": @->assetId
+                "assetId": @->assetId,
+                "aspectRatio": @->data.aspect_ratio
               }
             }
           }

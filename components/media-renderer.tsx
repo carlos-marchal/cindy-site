@@ -42,6 +42,7 @@ export const MediaRenderer = ({
 
   if (isSanityMuxVideoReference(media)) {
     const playbackId = media.asset.playbackId;
+    const aspectRatio = media.asset.aspectRatio || "16/9";
 
     if (!playbackId) {
       console.error("Mux video missing playbackId", media);
@@ -59,7 +60,7 @@ export const MediaRenderer = ({
         style={{
           width: "100%",
           height: layout === "fill" ? "100%" : "auto",
-          aspectRatio: "16/9",
+          aspectRatio: aspectRatio.replace(":", "/"),
           "--controls": "none",
           ...style,
         } as React.CSSProperties}

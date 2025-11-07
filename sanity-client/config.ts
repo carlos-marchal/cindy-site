@@ -81,6 +81,7 @@ export interface SanityMuxVideoReference {
     _type: "reference";
     playbackId?: string;
     assetId?: string;
+    aspectRatio?: string;
   };
 }
 
