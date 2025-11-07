@@ -2,6 +2,8 @@ import { defineConfig, isDev } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { muxInput } from 'sanity-plugin-mux-input'
+import { dashboardTool } from '@sanity/dashboard'
+import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel'
 
 import siteSetting from './schemas/site-settings'
 import homePage from './schemas/home'
@@ -32,6 +34,13 @@ export default defineConfig({
   plugins: [
     structureTool({
       structure,
+    }),
+    dashboardTool({
+      widgets: [
+        vercelWidget({
+          layout: { width: 'full' },
+        }),
+      ],
     }),
     muxInput(),
     ...(isDev ? [visionTool()] : []),
