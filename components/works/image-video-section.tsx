@@ -13,18 +13,18 @@ export interface ImageVideoSectionData {
   mode: ImageSectionMode;
 }
 
-const ImageSectionElement = styled(motion.section)<{ mode: ImageSectionMode }>`
+const ImageSectionElement = styled(motion.section)<{ $mode: ImageSectionMode }>`
   margin: var(--lateral-margin);
   margin-top: 0px;
   @media (min-width: 768px) {
-    margin: ${({ mode }) =>
+    margin: ${({ $mode }) =>
       ({
         full: "var(--lateral-margin)",
         right:
           "var(--lateral-margin) var(--lateral-margin) var(--lateral-margin) 30vw",
         left: "var(--lateral-margin) 30vw var(--lateral-margin) var(--lateral-margin)",
         poster: "var(--lateral-margin) 30vw var(--lateral-margin) 30vw",
-      }[mode])};
+      }[$mode])};
   }
 `;
 
@@ -37,7 +37,7 @@ export const ImageVideoSection = (props: ImageVideoSectionProps) => {
   const aspectRatio = props.children.video.asset.aspectRatio || "16/9";
   return (
     <ImageSectionElement
-      mode={props.children.mode}
+      $mode={props.children.mode}
       initial={{ opacity: 0, translateY: -50 }}
       whileInView={{ opacity: 1, translateY: 0 }}
       transition={{ delay: 0.5 }}

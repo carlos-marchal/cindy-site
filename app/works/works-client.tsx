@@ -35,9 +35,9 @@ const CategoryFilter = styled.form`
   }
 `
 
-const Label = styled.label<{ checked: boolean }>`
+const Label = styled.label<{ $checked: boolean }>`
   cursor: pointer;
-  text-decoration: ${({ checked }) => (checked ? 'underline' : 'none')};
+  text-decoration: ${({ $checked }) => ($checked ? 'underline' : 'none')};
   margin-right: var(--items-margin);
   margin-bottom: 20px;
 
@@ -65,7 +65,7 @@ export default function WorksClient(props: WorksClientProps) {
       <Header preview={props.draftMode} navItems={props.navItems} />
       <Main>
         <CategoryFilter>
-          <Label checked={selected === undefined}>
+          <Label $checked={selected === undefined}>
             <input
               type="radio"
               onChange={() => setSelected(undefined)}
@@ -74,7 +74,7 @@ export default function WorksClient(props: WorksClientProps) {
             All
           </Label>
           {props.categoryFilter.map((category) => (
-            <Label checked={selected === category._id} key={category._id}>
+            <Label $checked={selected === category._id} key={category._id}>
               <input
                 type="radio"
                 onChange={() => setSelected(category._id)}

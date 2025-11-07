@@ -63,11 +63,11 @@ const CarousselSectionEntryElement = styled(motion.div)`
   position: relative;
 `;
 
-const CarousselSectionButton = styled.button<{ side: "left" | "right" }>`
+const CarousselSectionButton = styled.button<{ $side: "left" | "right" }>`
   position: absolute;
   top: 0;
   bottom: 0;
-  ${({ side }) => side}: 0;
+  ${({ $side }) => $side}: 0;
   width: 50%;
   color: transparent;
   cursor: none;
@@ -173,10 +173,10 @@ const CarousselSectionEntry = (props: CarousselSectionEntryProps) => {
         layout="responsive"
         sizes="(min-width: 1500px) 30vw, (min-width: 1000px) 40vw, (min-width: 768px) 50vw, 70vw"
       />
-      <CarousselSectionButton side="left" onClick={clickHandler("left")}>
+      <CarousselSectionButton $side="left" onClick={clickHandler("left")}>
         Previous
       </CarousselSectionButton>
-      <CarousselSectionButton side="right" onClick={clickHandler("right")}>
+      <CarousselSectionButton $side="right" onClick={clickHandler("right")}>
         Next
       </CarousselSectionButton>
     </CarousselSectionEntryElement>

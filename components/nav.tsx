@@ -6,15 +6,15 @@ import { RefObject, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { SiteSettingsNavigation } from "../sanity-client/config";
 
-const NavElement = styled(motion.nav)<{ light?: boolean }>`
+const NavElement = styled(motion.nav)<{ $light?: boolean }>`
   position: fixed;
   z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: ${({ light }) => (light ? "var(--white)" : "var(--black)")};
-  color: ${({ light }) => (light ? "var(--black)" : "var(--white)")};
+  background: ${({ $light }) => ($light ? "var(--white)" : "var(--black)")};
+  color: ${({ $light }) => ($light ? "var(--black)" : "var(--white)")};
   font: var(--header-font);
   display: grid;
   place-items: center;
@@ -100,7 +100,7 @@ export const Nav = (props: NavProps) => {
           exit="closed"
           custom={clipCircle}
           transition={{ bounce: 0 }}
-          light={props.light}
+          $light={props.light}
         >
           <CloseButton onClick={() => props.onClose()}>
             <CloseIcon />

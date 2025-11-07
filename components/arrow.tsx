@@ -26,9 +26,9 @@ const StyledLink = styled(Link)`
   display: block;
 `;
 
-const SVG = styled.svg<{ direction: ArrowDirection }>`
+const SVG = styled.svg<{ $direction: ArrowDirection }>`
   transform: rotate(
-    ${({ direction }) => ({ down: 0, right: 90, up: 180 }[direction])}deg
+    ${({ $direction }) => ({ down: 0, right: 90, up: 180 }[$direction])}deg
   );
   width: 36px;
   @media (min-width: 768px) {
@@ -47,7 +47,7 @@ export const Arrow = (props: ArrowProps) =>
   wrapArrow(
     props,
     <SVG
-      direction={props.direction}
+      $direction={props.direction}
       viewBox="0 0 69 65"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
