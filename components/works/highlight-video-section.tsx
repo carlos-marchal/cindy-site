@@ -61,7 +61,7 @@ export const HighlightVideoSection = (props: HighlightVideoSectionProps) => {
             muted
             loop
             playsInline
-            style={{ width: "100%", aspectRatio: aspectRatio.replace(":", "/"), "--controls": "none" } as React.CSSProperties}
+            style={{ width: "100%", aspectRatio: aspectRatio.replace(":", "/"), "--controls": "none" } as React.CSSProperties & Record<`--${string}`, string>}
           />
         )}
       </motion.div>

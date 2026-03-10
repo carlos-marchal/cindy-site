@@ -63,7 +63,7 @@ export const MediaRenderer = ({
           aspectRatio: aspectRatio.replace(":", "/"),
           "--controls": "none",
           ...style,
-        } as React.CSSProperties}
+        } as React.CSSProperties & Record<`--${string}`, string>}
         className={className}
       />
     );
