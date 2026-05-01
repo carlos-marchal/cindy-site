@@ -20,6 +20,10 @@ const NavElement = styled(motion.nav)<{ $light?: boolean }>`
   place-items: center;
   text-align: center;
 
+  @media (min-width: 1100px) {
+    line-height: 108px;
+  }
+
   a {
     text-decoration: none;
   }

@@ -41,7 +41,7 @@ const Caption = styled(motion.div)`
   font: 18px "Neue Haas Grotesk Display";
 
   header {
-    font: 30px "Grand Slang";
+    font: 30px "Neue Haas Grotesk Display";
   }
 `;
 

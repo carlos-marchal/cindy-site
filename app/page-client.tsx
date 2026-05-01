@@ -31,6 +31,9 @@ const Main = styled.main`
   @media (min-width: 768px) {
     padding-top: 70px;
   }
+  @media (min-width: 1100px) {
+    line-height: 93px;
+  }
 `
 
 const Footer = styled.footer`

@@ -8,7 +8,8 @@ const HeaderElement = styled.header`
   font: var(--header-font);
   margin-bottom: 10px;
   @media (min-width: 768px) {
-    font-size: 80px;
+    font-size: 70px;
+    line-height: 68px;
   }
 `;
 

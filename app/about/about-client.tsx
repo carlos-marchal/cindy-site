@@ -55,17 +55,14 @@ const Portrait = styled(motion.div)`
 const DL = styled(motion.dl)`
   padding: 30px 0;
 
-  em {
-    font-family: 'Grand Slang';
-    font-style: normal;
-  }
-
   @media (min-width: 768px) {
     position: absolute;
     order: -1;
     min-height: 100%;
     padding-bottom: 150px;
     max-width: 50vw;
+    font-size: 20px;
+    line-height: 44px;
   }
 `
 

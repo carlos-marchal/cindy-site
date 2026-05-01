@@ -29,6 +29,11 @@ const IntroSectionText = styled.div`
   @media (min-width: 768px) {
     order: -1;
     margin: 0 var(--lateral-margin);
+
+    h1 {
+      font-size: 80px;
+      line-height: 68px;
+    }
   }
 `;
 
