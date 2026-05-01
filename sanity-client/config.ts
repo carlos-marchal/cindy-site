@@ -1,5 +1,5 @@
 import { ClientConfig, groq } from "next-sanity";
-import createImageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 
 if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID === undefined) {
   throw new Error("Env variable NEXT_PUBLIC_SANITY_PROJECT_ID needs to be set");

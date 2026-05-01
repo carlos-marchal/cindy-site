@@ -2,7 +2,7 @@
 
 import { motion, useTransform, useScroll } from 'framer-motion'
 import Image from 'next/image'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useSyncExternalStore } from 'react'
 import styled from 'styled-components'
 import { Arrow } from '@/components/arrow'
 import { Header } from '@/components/header'
@@ -100,18 +100,20 @@ interface AboutClientProps {
   draftMode: boolean
 }
 
+const MOBILE_QUERY = '(min-width: 768px)'
+
+function subscribeMobile(callback: () => void) {
+  const query = window.matchMedia(MOBILE_QUERY)
+  query.addEventListener('change', callback)
+  return () => query.removeEventListener('change', callback)
+}
+
+function getMobileSnapshot() {
+  return !window.matchMedia(MOBILE_QUERY).matches
+}
+
 function useIsMobile(): boolean {
-  const [mobile, setMobile] = useState(true)
-  useEffect(() => {
-    const query = window.matchMedia('(min-width: 768px)')
-    setMobile(!query.matches)
-    const listener = (event: MediaQueryListEvent) => {
-      setMobile(!event.matches)
-    }
-    query.addEventListener('change', listener)
-    return () => query.removeEventListener('change', listener)
-  }, [])
-  return mobile
+  return useSyncExternalStore(subscribeMobile, getMobileSnapshot, () => true)
 }
 
 export default function AboutClient(props: AboutClientProps) {
