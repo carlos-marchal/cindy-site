@@ -8,6 +8,14 @@
 
 @font-face {
   font-family: "Neue Haas Grotesk Display";
+  src: url("./light.woff2") format("woff2"),
+    url("./light.woff") format("woff"), url("./light.ttf") format("ttf");
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Neue Haas Grotesk Display";
   src: url("./regular-italic.woff2") format("woff2"),
     url("./regular-italic.woff") format("woff"),
     url("./regular-italic.ttf") format("ttf");
