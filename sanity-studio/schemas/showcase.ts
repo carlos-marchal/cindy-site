@@ -1,5 +1,77 @@
 import { defineType, defineField, defineArrayMember } from 'sanity'
+import { toPlainText } from '@portabletext/toolkit'
+import {
+  ImageIcon,
+  VideoIcon,
+  TextIcon,
+  HighlightIcon,
+  ImagesIcon,
+  StackIcon,
+} from '@sanity/icons'
 import { textConfig } from './text-config.jsx'
+import { MultiThumbPreview } from './section-preview'
+
+const captionField = {
+  name: 'caption',
+  title: 'Caption',
+  type: 'string' as const,
+  options: { isHighlighted: true },
+}
+
+const captionedImage = (name = 'image') =>
+  defineField({
+    type: 'image',
+    name,
+    fields: [captionField],
+    validation: (Rule) => Rule.required().assetRequired(),
+  })
+
+const muxVideo = (name = 'video') =>
+  defineField({
+    type: 'mux.video',
+    name,
+    title: 'Video',
+    validation: (Rule) => Rule.required().assetRequired(),
+  })
+
+const richText = (name = 'content') =>
+  defineField({ name, type: 'array', of: textConfig })
+
+const modeField = defineField({
+  type: 'string',
+  name: 'mode',
+  options: { list: ['full', 'left', 'right', 'poster'], layout: 'radio' },
+  validation: (Rule) => Rule.required(),
+})
+
+const galleryContent = defineField({
+  type: 'array',
+  name: 'content',
+  options: { layout: 'grid' },
+  validation: (Rule) => Rule.required(),
+  of: [
+    defineArrayMember({
+      type: 'image',
+      fields: [captionField],
+      validation: (Rule) => Rule.assetRequired(),
+    }),
+    defineArrayMember({
+      type: 'mux.video',
+      title: 'Video',
+      validation: (Rule) => Rule.assetRequired(),
+    }),
+  ],
+})
+
+const truncate = (s: string, n = 80) => (s.length > n ? s.slice(0, n) + '…' : s)
+
+const richTextTitle = (content: unknown, fallback: string) => {
+  if (!Array.isArray(content) || !content.length) return fallback
+  const plain = toPlainText(content).trim()
+  return plain ? truncate(plain) : fallback
+}
+
+const multiThumb = { preview: MultiThumbPreview as never }
 
 export default defineType({
   name: 'showcase',
@@ -29,19 +101,7 @@ export default defineType({
       options: { disableNew: true },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      type: 'image',
-      name: 'cover',
-      fields: [
-        {
-          name: 'caption',
-          title: 'Caption',
-          type: 'string',
-          options: { isHighlighted: true },
-        },
-      ],
-      validation: (Rule) => Rule.required().assetRequired(),
-    }),
+    captionedImage('cover'),
     defineField({
       type: 'array',
       name: 'sections',
@@ -49,35 +109,21 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           name: 'intro',
+          icon: ImageIcon,
           fields: [
-            defineField({
-              type: 'image',
-              name: 'image',
-              fields: [
-                {
-                  name: 'caption',
-                  title: 'Caption',
-                  type: 'string',
-                  options: { isHighlighted: true },
-                },
-              ],
-              validation: (Rule) => Rule.required().assetRequired(),
-            }),
+            captionedImage(),
             defineField({
               type: 'string',
               name: 'title',
               validation: (Rule) => Rule.required(),
             }),
-            defineField({
-              name: 'content',
-              type: 'array',
-              of: textConfig,
-            }),
+            richText(),
           ],
           preview: {
             select: { title: 'title', media: 'image' },
             prepare: ({ title, media }) => ({
-              title: `Introduction (Image): ${title}`,
+              title: title || 'Introduction',
+              subtitle: 'Introduction · Image',
               media,
             }),
           },
@@ -85,28 +131,21 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           name: 'intro_video',
+          icon: VideoIcon,
           fields: [
-            defineField({
-              type: 'mux.video',
-              name: 'video',
-              title: 'Video',
-              validation: (Rule) => Rule.required().assetRequired(),
-            }),
+            muxVideo(),
             defineField({
               type: 'string',
               name: 'title',
               validation: (Rule) => Rule.required(),
             }),
-            defineField({
-              name: 'content',
-              type: 'array',
-              of: textConfig,
-            }),
+            richText(),
           ],
           preview: {
             select: { title: 'title', media: 'video' },
             prepare: ({ title, media }) => ({
-              title: `Introduction (Video): ${title}`,
+              title: title || 'Introduction',
+              subtitle: 'Introduction · Video',
               media,
             }),
           },
@@ -114,47 +153,27 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           name: 'text_section',
-          fields: [
-            defineField({
-              name: 'content',
-              type: 'array',
-              of: textConfig,
-            }),
-          ],
+          icon: TextIcon,
+          fields: [richText()],
           preview: {
-            select: { content: 'content.0.children.0.text' },
+            select: { content: 'content' },
             prepare: ({ content }) => ({
-              title: `Text: ${content.slice(0, 100)}...`,
+              title: richTextTitle(content, 'Text block'),
+              subtitle: 'Text',
+              media: TextIcon,
             }),
           },
         }),
         defineArrayMember({
           type: 'object',
           name: 'highlight',
-          fields: [
-            defineField({
-              type: 'image',
-              name: 'image',
-              fields: [
-                {
-                  name: 'caption',
-                  title: 'Caption',
-                  type: 'string',
-                  options: { isHighlighted: true },
-                },
-              ],
-              validation: (Rule) => Rule.required().assetRequired(),
-            }),
-            defineField({
-              name: 'content',
-              type: 'array',
-              of: textConfig,
-            }),
-          ],
+          icon: HighlightIcon,
+          fields: [captionedImage(), richText()],
           preview: {
-            select: { content: 'content.0.children.0.text', media: 'image' },
+            select: { content: 'content', media: 'image' },
             prepare: ({ content, media }) => ({
-              title: `Highlight (Image): ${content}`,
+              title: richTextTitle(content, 'Highlight'),
+              subtitle: 'Highlight · Image',
               media,
             }),
           },
@@ -162,23 +181,13 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           name: 'highlight_video',
-          fields: [
-            defineField({
-              type: 'mux.video',
-              name: 'video',
-              title: 'Video',
-              validation: (Rule) => Rule.required().assetRequired(),
-            }),
-            defineField({
-              name: 'content',
-              type: 'array',
-              of: textConfig,
-            }),
-          ],
+          icon: HighlightIcon,
+          fields: [muxVideo(), richText()],
           preview: {
-            select: { content: 'content.0.children.0.text', media: 'video' },
+            select: { content: 'content', media: 'video' },
             prepare: ({ content, media }) => ({
-              title: `Highlight (Video): ${content}`,
+              title: richTextTitle(content, 'Highlight'),
+              subtitle: 'Highlight · Video',
               media,
             }),
           },
@@ -186,136 +195,52 @@ export default defineType({
         defineArrayMember({
           type: 'object',
           name: 'picture',
-          fields: [
-            defineField({
-              type: 'image',
-              name: 'image',
-              fields: [
-                {
-                  name: 'caption',
-                  title: 'Caption',
-                  type: 'string',
-                  options: { isHighlighted: true },
-                },
-              ],
-              validation: (Rule) => Rule.required().assetRequired(),
-            }),
-            defineField({
-              type: 'string',
-              name: 'mode',
-              options: {
-                list: ['full', 'left', 'right', 'poster'],
-                layout: 'radio',
-              },
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
+          icon: ImageIcon,
+          fields: [captionedImage(), modeField],
           preview: {
-            select: { media: 'image' },
-            prepare: ({ media }) => ({ title: `Picture (Image)`, media }),
+            select: { media: 'image', mode: 'mode', caption: 'image.caption' },
+            prepare: ({ media, mode, caption }) => ({
+              title: caption || 'Picture',
+              subtitle: `Picture · Image${mode ? ` · ${mode}` : ''}`,
+              media,
+            }),
           },
         }),
         defineArrayMember({
           type: 'object',
           name: 'picture_video',
-          fields: [
-            defineField({
-              type: 'mux.video',
-              name: 'video',
-              title: 'Video',
-              validation: (Rule) => Rule.required().assetRequired(),
-            }),
-            defineField({
-              type: 'string',
-              name: 'mode',
-              options: {
-                list: ['full', 'left', 'right', 'poster'],
-                layout: 'radio',
-              },
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
+          icon: VideoIcon,
+          fields: [muxVideo(), modeField],
           preview: {
-            select: { media: 'video' },
-            prepare: ({ media }) => ({ title: `Picture (Video)`, media }),
+            select: { media: 'video', mode: 'mode' },
+            prepare: ({ media, mode }) => ({
+              title: 'Picture',
+              subtitle: `Picture · Video${mode ? ` · ${mode}` : ''}`,
+              media,
+            }),
           },
         }),
         defineArrayMember({
           type: 'object',
           name: 'gallery',
-          fields: [
-            defineField({
-              type: 'array',
-              name: 'content',
-              options: { layout: 'grid' },
-              validation: (Rule) => Rule.required(),
-              of: [
-                {
-                  type: 'image',
-                  fields: [
-                    {
-                      name: 'caption',
-                      title: 'Caption',
-                      type: 'string',
-                      options: { isHighlighted: true },
-                    },
-                  ],
-                  validation: (Rule) => Rule.assetRequired(),
-                },
-                {
-                  type: 'mux.video',
-                  title: 'Video',
-                  validation: (Rule) => Rule.assetRequired(),
-                },
-              ],
-            }),
-          ],
+          icon: ImagesIcon,
+          fields: [galleryContent],
           preview: {
-            prepare: () => ({
-              title: 'Gallery',
-            }),
+            select: { items: 'content' },
+            prepare: ({ items }) => ({ title: 'Gallery', items }),
           },
+          components: multiThumb,
         }),
         defineArrayMember({
           type: 'object',
           name: 'caroussel',
-          fields: [
-            defineField({
-              name: 'intro',
-              type: 'array',
-              of: textConfig,
-            }),
-            defineField({
-              type: 'array',
-              name: 'content',
-              options: { layout: 'grid' },
-              validation: (Rule) => Rule.required(),
-              of: [
-                {
-                  type: 'image',
-                  fields: [
-                    {
-                      name: 'caption',
-                      title: 'Caption',
-                      type: 'string',
-                      options: { isHighlighted: true },
-                    },
-                  ],
-                  validation: (Rule) => Rule.assetRequired(),
-                },
-                {
-                  type: 'mux.video',
-                  title: 'Video',
-                  validation: (Rule) => Rule.assetRequired(),
-                },
-              ],
-            }),
-          ],
+          icon: StackIcon,
+          fields: [richText('intro'), galleryContent],
           preview: {
-            prepare: () => ({
-              title: 'Caroussel',
-            }),
+            select: { items: 'content' },
+            prepare: ({ items }) => ({ title: 'Caroussel', items }),
           },
+          components: multiThumb,
         }),
       ],
     }),
