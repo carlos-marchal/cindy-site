@@ -21,7 +21,7 @@ export default defineType({
           options: { isHighlighted: true },
         },
       ],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().assetRequired(),
     }),
     defineField({
       type: 'array',

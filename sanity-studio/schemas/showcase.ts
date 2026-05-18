@@ -40,7 +40,7 @@ export default defineType({
           options: { isHighlighted: true },
         },
       ],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().assetRequired(),
     }),
     defineField({
       type: 'array',
@@ -61,7 +61,7 @@ export default defineType({
                   options: { isHighlighted: true },
                 },
               ],
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) => Rule.required().assetRequired(),
             }),
             defineField({
               type: 'string',
@@ -90,7 +90,7 @@ export default defineType({
               type: 'mux.video',
               name: 'video',
               title: 'Video',
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) => Rule.required().assetRequired(),
             }),
             defineField({
               type: 'string',
@@ -143,7 +143,7 @@ export default defineType({
                   options: { isHighlighted: true },
                 },
               ],
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) => Rule.required().assetRequired(),
             }),
             defineField({
               name: 'content',
@@ -167,7 +167,7 @@ export default defineType({
               type: 'mux.video',
               name: 'video',
               title: 'Video',
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) => Rule.required().assetRequired(),
             }),
             defineField({
               name: 'content',
@@ -198,7 +198,7 @@ export default defineType({
                   options: { isHighlighted: true },
                 },
               ],
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) => Rule.required().assetRequired(),
             }),
             defineField({
               type: 'string',
@@ -223,7 +223,7 @@ export default defineType({
               type: 'mux.video',
               name: 'video',
               title: 'Video',
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) => Rule.required().assetRequired(),
             }),
             defineField({
               type: 'string',
@@ -260,10 +260,12 @@ export default defineType({
                       options: { isHighlighted: true },
                     },
                   ],
+                  validation: (Rule) => Rule.assetRequired(),
                 },
                 {
                   type: 'mux.video',
                   title: 'Video',
+                  validation: (Rule) => Rule.assetRequired(),
                 },
               ],
             }),
@@ -299,10 +301,12 @@ export default defineType({
                       options: { isHighlighted: true },
                     },
                   ],
+                  validation: (Rule) => Rule.assetRequired(),
                 },
                 {
                   type: 'mux.video',
                   title: 'Video',
+                  validation: (Rule) => Rule.assetRequired(),
                 },
               ],
             }),

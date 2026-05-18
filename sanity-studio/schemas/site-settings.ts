@@ -17,7 +17,7 @@ export default defineType({
     defineField({
       type: 'image',
       name: 'preview',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().assetRequired(),
     }),
     defineField({
       name: 'navigation',
